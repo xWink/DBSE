@@ -8,3 +8,28 @@ A remastered version of the University of Guelph Bachelor of Computing Discord B
 
   1. `!echo <content>` - deletes the caller's message and repeats the content requested, including attachments
   2. `!purge <number>` - deletes the caller's message + the given number of prior messages in the channel (max 99)
+
+# Forking
+In order to use this bot, you must create an `application.properties` file in src/main/resources. The following properties are required:
+
+```
+bot.token = <bot token>
+
+bot.ownerId = <your Discord user ID>
+
+bot.commandPrefix = <command prefix (eg. !)>
+
+spring.datasource.url = <database URL>
+
+spring.datasource.username = <database username>
+
+spring.datasource.password = <database password>
+
+spring.datasource.driver-class-name = org.mariadb.jdbc.Driver
+
+spring.jpa.hibernate.ddl-auto = validate
+
+spring.jpa.show-sql = true
+```
+
+#### If you choose to use a database other than MariaDB, you will have to change the existing dependencies according to your needs

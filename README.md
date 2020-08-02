@@ -14,21 +14,13 @@ In order to use this bot, you must create an `application.properties` file in sr
 
 ```
 bot.token = <bot token>
-
 bot.ownerId = <your Discord user ID>
-
 bot.commandPrefix = <command prefix (eg. !)>
-
 spring.datasource.url = <database URL>
-
 spring.datasource.username = <database username>
-
 spring.datasource.password = <database password>
-
 spring.datasource.driver-class-name = org.mariadb.jdbc.Driver
-
 spring.jpa.hibernate.ddl-auto = validate
-
 spring.jpa.show-sql = true
 ```
 

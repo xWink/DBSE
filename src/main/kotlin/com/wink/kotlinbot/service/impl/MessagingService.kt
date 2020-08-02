@@ -4,9 +4,10 @@ import com.wink.kotlinbot.service.MessageSender
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.utils.AttachmentOption
 import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import java.util.*
 
-@Component
+@Service
 class MessagingService: MessageSender {
 
     companion object {

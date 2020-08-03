@@ -13,8 +13,10 @@ interface MessageRepository: JpaRepository<MessageEntity, Long> {
 
     fun findFirstByMessageId(id: Long): MessageEntity
 
-    @Transactional
-    fun deleteByMessageId(id: Long)
+    fun findByMessageIdIn(messageIds: List<Long>): List<MessageEntity>
 
-    fun findByMessageIdIn(ids: List<Long>): List<MessageEntity>
+    @Modifying
+    @Transactional
+    @Query("update MessageEntity m set m.timeSentMillis = ?2, m.content = ?3 where m.messageId = ?1")
+    fun updateByMessageId(messageId: Long, timeSentMillis: Long, content: String)
 }

@@ -11,7 +11,7 @@ A remastered version of the University of Guelph Bachelor of Computing Discord B
   2. `!purge <number>` - deletes the caller's message + the given number of prior messages in the channel (max 99)
 
 # Forking
-In order to use this bot, you must create an `application.properties` file in src/main/resources. The following properties are required:
+In order to use this bot, you must create an `application.properties` file in src/main/resources. The following properties should be used:
 
 ```
 bot.token = <bot token>
@@ -21,8 +21,11 @@ spring.datasource.url = <database URL>
 spring.datasource.username = <database username>
 spring.datasource.password = <database password>
 spring.datasource.driver-class-name = org.mariadb.jdbc.Driver
+spring.datasource.hikari.minimum-idle = 0
+spring.datasource.hikari.initialization-fail-timeout = -1
+spring.datasource.continue-on-error = true
 spring.jpa.hibernate.ddl-auto = validate
 spring.jpa.show-sql = true
 ```
 
-#### If you choose to use a database other than MariaDB, you will have to change the existing dependencies according to your needs
+#### Note: if the database connection fails for any reason, all components that do not depend on the db will still function

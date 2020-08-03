@@ -23,7 +23,7 @@ class MessageDeleteLogger @Autowired constructor(
             val deletedMessages = guild.getTextChannelsByName("deleted-messages", false)[0]
 
             val messageEntities: List<MessageEntity> = repository.findByMessageIdOrderByTimeSent(event.messageIdLong)
-            val entity: MessageEntity = messageEntities[0]
+            val entity: MessageEntity = messageEntities.last()
 
             event.jda.retrieveUserById(entity.authorId).queue() {
                 val channel: String? = guild.getTextChannelById(entity.channelId)?.name

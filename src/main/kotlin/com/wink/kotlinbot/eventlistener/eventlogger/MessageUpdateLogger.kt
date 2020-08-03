@@ -30,16 +30,16 @@ class MessageUpdateLogger @Autowired constructor(
 
             // Get original content
             val originalMessage: MessageEntity = repository.findFirstByMessageId(editedMessage.messageId)
-            val content: String = originalMessage.content + "\n" + originalMessage.attachment
+            val originalContent: String = originalMessage.content + "\n" + originalMessage.attachment
 
-            // Log update
+            // Log original message
             event.jda.retrieveUserById(originalMessage.authorId).queue() {
-                val message: String = formatter.format(editedMessage.timeSentMillis, channel, it.name, content)
+                val message: String = formatter.format(originalMessage.timeSentMillis, channel, it.name, originalContent)
                 messageSender.sendMessage(editedMessagesChannel, message)
             }
 
             // Update message in db
-            repository.updateByMessageId(originalMessage.messageId, editedMessage.timeSentMillis, editedMessage.content)
+            repository.updateByMessageId(editedMessage.messageId, editedMessage.timeSentMillis, editedMessage.content)
         } catch (ignored: IndexOutOfBoundsException) {}
     }
 }

@@ -38,7 +38,6 @@ class MessageConverter: Converter<GenericMessageEvent, MessageEntity> {
                 messageId = message.idLong,
                 authorId = message.author.idLong,
                 channelId = message.channel.idLong,
-                serverId = message.guild.idLong,
                 timeSentMillis = timeSentMillis,
                 content = message.contentRaw,
                 attachment = message.attachmentProxy())

@@ -22,20 +22,20 @@ class MessageUpdateLogger @Autowired constructor(
     override fun onMessageUpdate(event: MessageUpdateEvent) {
         try {
             val guild = event.guild
-            val editedMessages = guild.getTextChannelsByName("edited-messages", false)[0]
+            val editedMessagesChannel = guild.getTextChannelsByName("edited-messages", false)[0]
 
-            val editedMessageEntity: MessageEntity = converter.convert(event)
-            val originalMessageEntities: List<MessageEntity> = repository.findByMessageIdOrderByTimeSent(editedMessageEntity.messageId)
-            val originalMessageEntity: MessageEntity = originalMessageEntities.last()
+            val editedMessage: MessageEntity = converter.convert(event)
+            val originalMessage: MessageEntity = repository.findFirstByMessageId(editedMessage.messageId)
 
-            event.jda.retrieveUserById(originalMessageEntity.authorId).queue() {
-                val channel: String? = guild.getTextChannelById(editedMessageEntity.channelId)?.name
-                val content: String = originalMessageEntity.content + "\n" + originalMessageEntity.attachment
-                val message: String = formatter.format(editedMessageEntity.timeSentMillis, channel, it.name, content)
-                messageSender.sendMessage(editedMessages, message)
+            event.jda.retrieveUserById(originalMessage.authorId).queue() {
+                val channel: String? = guild.getTextChannelById(editedMessage.channelId)?.name
+                val content: String = originalMessage.content + "\n" + originalMessage.attachment
+                val message: String = formatter.format(editedMessage.timeSentMillis, channel, it.name, content)
+                messageSender.sendMessage(editedMessagesChannel, message)
             }
 
-            repository.save(editedMessageEntity)
+            repository.deleteByMessageId(originalMessage.messageId)
+            repository.save(editedMessage)
         } catch (ignored: IndexOutOfBoundsException) {}
     }
 }

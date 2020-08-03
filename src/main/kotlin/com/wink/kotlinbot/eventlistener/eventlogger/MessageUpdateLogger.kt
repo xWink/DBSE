@@ -29,7 +29,7 @@ class MessageUpdateLogger @Autowired constructor(
             val channel: String? = guild.getTextChannelById(editedMessage.channelId)?.name
 
             // Get original content
-            val originalMessage: MessageEntity = repository.findFirstByMessageId(editedMessage.messageId)
+            val originalMessage: MessageEntity = repository.findFirstByMessageId(editedMessage.messageId) ?: return
             val originalContent: String = originalMessage.content + "\n" + originalMessage.attachment
 
             // Log original message

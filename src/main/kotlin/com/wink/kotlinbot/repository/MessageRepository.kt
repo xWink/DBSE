@@ -11,7 +11,7 @@ import javax.transaction.Transactional
 @Repository
 interface MessageRepository: JpaRepository<MessageEntity, Long> {
 
-    fun findFirstByMessageId(id: Long): MessageEntity
+    fun findFirstByMessageId(id: Long): MessageEntity?
 
     fun findByMessageIdIn(messageIds: List<Long>): List<MessageEntity>
 

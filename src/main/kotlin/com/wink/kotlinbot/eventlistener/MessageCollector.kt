@@ -1,5 +1,6 @@
 package com.wink.kotlinbot.eventlistener
 
+import com.jagrosh.jdautilities.command.CommandClient
 import com.wink.kotlinbot.entity.MessageEntity
 import com.wink.kotlinbot.util.MessageConverter
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
@@ -13,13 +14,24 @@ import javax.transaction.Transactional
 @Transactional
 class MessageCollector @Autowired constructor(
         private val repository: MessageRepository,
-        private val converter: MessageConverter
+        private val converter: MessageConverter,
+        private val commandClient: CommandClient
 ) : ListenerAdapter() {
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
-        if (!event.author.isBot) {
-            val entity: MessageEntity = converter.convert(event)
-            repository.save(entity)
+        // Do not save bot responses
+        if (event.author.isBot) {
+            return
         }
+
+        // Do not save command calls
+        val firstWord: String = event.message.contentRaw.split("\\s+".toRegex())[0]
+        val commandNames: List<String> = commandClient.commands.map { it.name }
+        if (firstWord.startsWith(commandClient.prefix) && commandNames.any { it == firstWord.substring(1) }) {
+            return
+        }
+
+        val entity: MessageEntity = converter.convert(event)
+        repository.save(entity)
     }
 }

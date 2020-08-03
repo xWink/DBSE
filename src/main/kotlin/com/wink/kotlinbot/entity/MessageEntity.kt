@@ -5,7 +5,8 @@ import javax.persistence.*
 @Entity
 @Table(name="testmessage")
 class MessageEntity(
-        @Id val messageId: Long = 0,
+        @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0,
+        val messageId: Long = 0,
         val authorId: Long = 0,
         val channelId: Long = 0,
         val timeSentMillis: Long = 0,

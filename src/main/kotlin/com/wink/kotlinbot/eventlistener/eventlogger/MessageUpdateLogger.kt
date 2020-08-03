@@ -5,6 +5,7 @@ import com.wink.kotlinbot.repository.MessageRepository
 import com.wink.kotlinbot.service.LoggedMessageFormatter
 import com.wink.kotlinbot.service.MessageSender
 import com.wink.kotlinbot.util.MessageConverter
+import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
@@ -20,26 +21,23 @@ class MessageUpdateLogger @Autowired constructor(
 ): ListenerAdapter() {
 
     override fun onMessageUpdate(event: MessageUpdateEvent) {
-        try {
-            val guild = event.guild
-            val editedMessagesChannel = guild.getTextChannelsByName("edited-messages", false)[0]
+        val editedMessage: MessageEntity = converter.convert(event)
+        logOriginalMessage(event, editedMessage)
+        repository.updateByMessageId(editedMessage.messageId, editedMessage.timeSentMillis, editedMessage.content)
+    }
 
-            // Get channel
-            val editedMessage: MessageEntity = converter.convert(event)
-            val channel: String? = guild.getTextChannelById(editedMessage.channelId)?.name
+    private fun logOriginalMessage(event: MessageUpdateEvent, editedMessage: MessageEntity) {
+        val editedMessagesChannel: TextChannel = try {
+            event.guild.getTextChannelsByName("edited-messages", false)[0]
+        } catch(e: IndexOutOfBoundsException) { null } ?: return
 
-            // Get original content
-            val originalMessage: MessageEntity = repository.findFirstByMessageId(editedMessage.messageId) ?: return
-            val originalContent: String = originalMessage.content + "\n" + originalMessage.attachment
+        val originalMessage: MessageEntity = repository.findFirstByMessageId(editedMessage.messageId) ?: return
+        val originalContent: String = originalMessage.content + "\n" + originalMessage.attachment
+        val channel: String? = event.guild.getTextChannelById(originalMessage.channelId)?.name
 
-            // Log original message
-            event.jda.retrieveUserById(originalMessage.authorId).queue() {
-                val message: String = formatter.format(originalMessage.timeSentMillis, channel, it.name, originalContent)
-                messageSender.sendMessage(editedMessagesChannel, message)
-            }
-
-            // Update message in db
-            repository.updateByMessageId(editedMessage.messageId, editedMessage.timeSentMillis, editedMessage.content)
-        } catch (ignored: IndexOutOfBoundsException) {}
+        event.jda.retrieveUserById(originalMessage.authorId).queue() {
+            val message: String = formatter.format(originalMessage.timeSentMillis, channel, it.name, originalContent)
+            messageSender.sendMessage(editedMessagesChannel, message)
+        }
     }
 }

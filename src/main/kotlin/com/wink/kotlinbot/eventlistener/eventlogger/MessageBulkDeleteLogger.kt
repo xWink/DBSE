@@ -16,7 +16,7 @@ class MessageBulkDeleteLogger @Autowired constructor(
         private val repository: MessageRepository,
         private val formatter: LoggedMessageFormatter,
         private val messageSender: MessageSender
-): ListenerAdapter() {
+) : ListenerAdapter() {
 
     companion object {
         private const val MAX_MESSAGE_LENGTH = 2000

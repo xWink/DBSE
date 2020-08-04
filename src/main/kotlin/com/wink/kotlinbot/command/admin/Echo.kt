@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class Echo @Autowired constructor(private val messageSender: MessageSender): Command() {
+class Echo @Autowired constructor(private val messageSender: MessageSender) : Command() {
 
     init {
         name = "echo"

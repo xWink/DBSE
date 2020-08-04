@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.Permission
 import org.springframework.stereotype.Component
 
 @Component
-class Purge: Command() {
+class Purge : Command() {
 
     init {
         name = "purge"

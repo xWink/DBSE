@@ -2,7 +2,7 @@ package com.wink.kotlinbot.eventlistener
 
 import com.jagrosh.jdautilities.command.CommandClient
 import com.wink.kotlinbot.entity.MessageEntity
-import com.wink.kotlinbot.util.MessageConverter
+import com.wink.kotlinbot.service.impl.MessageConvertingService
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
@@ -14,7 +14,7 @@ import javax.transaction.Transactional
 @Transactional
 class MessageCollector @Autowired constructor(
         private val repository: MessageRepository,
-        private val converter: MessageConverter,
+        private val converter: MessageConvertingService,
         private val commandClient: CommandClient
 ) : ListenerAdapter() {
 
@@ -31,7 +31,7 @@ class MessageCollector @Autowired constructor(
             return
         }
 
-        val entity: MessageEntity = converter.convert(event)
-        repository.save(entity)
+        val Entity: MessageEntity = converter.convert(event)
+        repository.save(Entity)
     }
 }

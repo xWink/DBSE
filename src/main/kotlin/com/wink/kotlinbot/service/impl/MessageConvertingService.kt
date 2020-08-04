@@ -1,9 +1,8 @@
-package com.wink.kotlinbot.util
+package com.wink.kotlinbot.service.impl
 
 import com.wink.kotlinbot.entity.MessageEntity
 import com.wink.kotlinbot.extension.attachmentProxy
 import net.dv8tion.jda.api.entities.Message
-import net.dv8tion.jda.api.entities.Message.Attachment
 import net.dv8tion.jda.api.events.message.GenericMessageEvent
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent
@@ -13,7 +12,7 @@ import java.lang.IllegalArgumentException
 import java.time.OffsetDateTime
 
 @Component
-class MessageConverter: Converter<GenericMessageEvent, MessageEntity> {
+class MessageConvertingService : Converter<GenericMessageEvent, MessageEntity> {
 
     override fun convert(source: GenericMessageEvent): MessageEntity {
         return when (source) {

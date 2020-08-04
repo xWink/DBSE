@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class MessagingService: MessageSender {
+class MessagingService : MessageSender {
 
     companion object {
         private const val MAX_MESSAGE_LENGTH = 2000

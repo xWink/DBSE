@@ -1,4 +1,4 @@
-package com.wink.kotlinbot.util
+package com.wink.kotlinbot.factory
 
 import com.jagrosh.jdautilities.command.CommandClient
 import com.wink.kotlinbot.property.BotProperties

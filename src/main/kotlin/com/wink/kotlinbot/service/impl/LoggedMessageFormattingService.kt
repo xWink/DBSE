@@ -7,7 +7,7 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Service
-class LoggedMessageFormattingService: LoggedMessageFormatter {
+class LoggedMessageFormattingService : LoggedMessageFormatter {
 
     companion object {
         val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm:ss")

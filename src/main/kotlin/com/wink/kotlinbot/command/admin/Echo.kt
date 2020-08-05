@@ -3,13 +3,13 @@ package com.wink.kotlinbot.command.admin
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.wink.kotlinbot.extension.attachmentProxy
-import com.wink.kotlinbot.service.MessageSender
+import com.wink.kotlinbot.service.IMessageSender
 import net.dv8tion.jda.api.Permission
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class Echo @Autowired constructor(private val messageSender: MessageSender) : Command() {
+class Echo @Autowired constructor(private val messageSender: IMessageSender) : Command() {
 
     init {
         name = "echo"

@@ -2,8 +2,8 @@ package com.wink.kotlinbot.eventlistener.eventlogger
 
 import com.wink.kotlinbot.entity.MessageEntity
 import com.wink.kotlinbot.repository.MessageRepository
-import com.wink.kotlinbot.service.LoggedMessageFormatter
-import com.wink.kotlinbot.service.MessageSender
+import com.wink.kotlinbot.service.ILoggedMessageFormatter
+import com.wink.kotlinbot.service.IMessageSender
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.message.MessageBulkDeleteEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -14,8 +14,8 @@ import java.lang.StringBuilder
 @Component
 class MessageBulkDeleteLogger @Autowired constructor(
         private val repository: MessageRepository,
-        private val formatter: LoggedMessageFormatter,
-        private val messageSender: MessageSender
+        private val formatter: ILoggedMessageFormatter,
+        private val messageSender: IMessageSender
 ) : ListenerAdapter() {
 
     companion object {

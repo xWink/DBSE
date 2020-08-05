@@ -1,6 +1,8 @@
 package com.wink.kotlinbot.entity.game
 
-abstract class Game(open val players: List<Player> = ArrayList()) {
+abstract class Game {
+
+    protected var active: Boolean = false
 
     abstract fun start()
 }

@@ -1,13 +1,13 @@
 package com.wink.kotlinbot.service.impl
 
-import com.wink.kotlinbot.service.LoggedMessageFormatter
+import com.wink.kotlinbot.service.ILoggedMessageFormatter
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 @Service
-class LoggedMessageFormattingService : LoggedMessageFormatter {
+class LoggedMessageFormattingService : ILoggedMessageFormatter {
 
     companion object {
         val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm:ss")

@@ -1,6 +1,6 @@
 package com.wink.kotlinbot.service
 
-interface LoggedMessageFormatter {
+interface ILoggedMessageFormatter {
 
     /**
      * Formats a message's information so that it can be cleanly printed.

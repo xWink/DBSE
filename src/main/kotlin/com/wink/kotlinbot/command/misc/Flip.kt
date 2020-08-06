@@ -4,14 +4,19 @@ import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.wink.kotlinbot.service.IMessageSender
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.Resource
 import org.springframework.stereotype.Component
-import java.awt.image.BufferedImage
-import java.io.ByteArrayOutputStream
-import javax.imageio.ImageIO
 import kotlin.random.Random.Default.nextBoolean
 
 @Component
 class Flip @Autowired constructor(private val messageSender: IMessageSender) : Command() {
+
+    @Value("classpath:loonie_heads.png")
+    private val heads: Resource? = null
+
+    @Value("classpath:loonie_tails.png")
+    private val tails: Resource? = null
 
     init {
         name = "flip"
@@ -21,12 +26,11 @@ class Flip @Autowired constructor(private val messageSender: IMessageSender) : C
     override fun execute(event: CommandEvent) {
         val isHeads = nextBoolean()
         val message = if (isHeads) "Heads!" else ("Tails!")
-        val file: String = if (isHeads) "loonie_heads.png" else "loonie_tails.png"
-
-        val image: BufferedImage = ImageIO.read(javaClass.classLoader.getResourceAsStream(file))
-        val os = ByteArrayOutputStream()
-        ImageIO.write(image, "png", os)
-
-        messageSender.sendMessage(event.channel, message, os.toByteArray(), "coin.png")
+        val file = if (isHeads) heads else tails
+        if (file == null) {
+            messageSender.sendMessage(event.channel, message)
+        } else {
+            messageSender.sendMessage(event.channel, message, file.file.readBytes(), "coin.png")
+        }
     }
 }

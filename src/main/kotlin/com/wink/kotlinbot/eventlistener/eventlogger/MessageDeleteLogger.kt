@@ -23,12 +23,12 @@ class MessageDeleteLogger @Autowired constructor(
             event.guild.getTextChannelsByName("deleted-messages", false)[0]
         } catch(e: IndexOutOfBoundsException) { null } ?: return
 
-        val Entity: MessageEntity = repository.findFirstByMessageId(event.messageIdLong) ?: return
-        event.jda.retrieveUserById(Entity.authorId).queue() {
-            val channel: String? = guild.getTextChannelById(Entity.channelId)?.name
-            val content: String = Entity.content + "\n" + Entity.attachment
-            val message: String = formatter.format(Entity.timeSentMillis, channel, it.name, content)
-            messageSender.sendMessage(deletedMessagesChannel, message)
-        }
+        val entity: MessageEntity = repository.findFirstByMessageId(event.messageIdLong) ?: return
+        val author: String? = event.jda.getUserById(entity.authorId)?.name
+        val channel: String? = guild.getTextChannelById(entity.channelId)?.name
+        val content: String = entity.content + "\n" + entity.attachment
+
+        val message: String = formatter.format(entity.timeSentMillis, channel, author, content)
+        messageSender.sendMessage(deletedMessagesChannel, message)
     }
 }

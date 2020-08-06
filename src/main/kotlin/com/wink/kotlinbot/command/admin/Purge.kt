@@ -12,7 +12,7 @@ class Purge : Command() {
         name = "purge"
         help = "Deletes the requested number of messages (max 99) + the command message"
         arguments = "<number of messages to purge>"
-        userPermissions = arrayOf(Permission.ADMINISTRATOR)
+        userPermissions = arrayOf(Permission.MANAGE_CHANNEL)
     }
 
     override fun execute(event: CommandEvent) {

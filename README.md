@@ -9,6 +9,12 @@ A remastered version of the University of Guelph Bachelor of Computing Discord B
 
   1. `!echo <content>` - deletes the caller's message and repeats the content requested, including attachments
   2. `!purge <number>` - deletes the caller's message + the given number of prior messages in the channel (max 99)
+  
+* General Commands:
+
+  1. `!ping` - shows the latency between client and Discord servers in ms
+  2. `!flip` - flips a coin, displays an image and text of the side the coin landed on
+  3. `!id <number>` - shows the name of the user with the corresponding id number
 
 # Forking
 In order to use this bot, you must create an `application.properties` file in src/main/resources. The following properties should be used:

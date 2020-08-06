@@ -26,6 +26,11 @@
       "description": "Name of channel where deleted messages are logged."
     },
     {
+      "name": "channel.name.bulkDeletedMessages",
+      "type": "java.lang.String",
+      "description": "Name of channel where bulk deleted messages are logged."
+    },
+    {
       "name": "channel.name.editedMessages",
       "type": "java.lang.String",
       "description": "Name of channel where edited messages are logged."

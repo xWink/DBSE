@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration
 data class ChannelNames(
         var welcome: String? = null,
         var deletedMessages: String? = null,
+        var bulkDeletedMessages: String? = null,
         var editedMessages: String? = null,
         var channels: String? = null
 )

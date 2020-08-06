@@ -26,11 +26,11 @@ class Flip @Autowired constructor(private val messenger: IMessenger) : Command()
     override fun execute(event: CommandEvent) {
         val isHeads = nextBoolean()
         val message = if (isHeads) "Heads!" else "Tails!"
-        val file = if (isHeads) heads else tails
-        if (file == null) {
+        val resource = if (isHeads) heads else tails
+        if (resource == null) {
             messenger.sendMessage(event.channel, message)
         } else {
-            messenger.sendMessage(event.channel, message, file.file.readBytes(), "coin.png")
+            messenger.sendMessage(event.channel, message, resource.file.readBytes(), "coin.png")
         }
     }
 }

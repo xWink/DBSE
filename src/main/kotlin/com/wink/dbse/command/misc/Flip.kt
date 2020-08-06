@@ -20,12 +20,12 @@ class Flip @Autowired constructor(private val messenger: IMessenger) : Command()
 
     init {
         name = "flip"
-        help = "Flips a coin and shows its top face"
+        help = "Flips a coin and shows the result"
     }
 
     override fun execute(event: CommandEvent) {
         val isHeads = nextBoolean()
-        val message = if (isHeads) "Heads!" else ("Tails!")
+        val message = if (isHeads) "Heads!" else "Tails!"
         val file = if (isHeads) heads else tails
         if (file == null) {
             messenger.sendMessage(event.channel, message)

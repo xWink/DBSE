@@ -36,9 +36,9 @@
       "description": "Name of channel where edited messages are logged."
     },
     {
-      "name": "channel.name.channels",
+      "name": "channel.name.channelOptions",
       "type": "java.lang.String",
-      "description": "Name of channel where the opt-in channel list is displayed."
+      "description": "Name of channel where the opt-in channel options are displayed."
     }
   ]
 }

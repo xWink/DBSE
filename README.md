@@ -17,6 +17,11 @@ In order to use this bot, you must create an `application.properties` file in sr
 bot.token = <bot token>
 bot.ownerId = <your Discord user ID>
 bot.commandPrefix = <command prefix (eg. !)>
+channel.name.welcome = <name of channel with welcome message and terms of service agreement>
+channel.name.bulkDeletedMessages = <name of channel where purged messages are logged>
+channel.name.deletedMessages = <name of channel where deleted messages are logged>
+channel.name.editedMessages = <name of channel where edited messages are logged>
+channel.name.channelOptions = <name of channel where opt-in channel options are displayed>
 spring.datasource.url = <database URL>
 spring.datasource.username = <database username>
 spring.datasource.password = <database password>

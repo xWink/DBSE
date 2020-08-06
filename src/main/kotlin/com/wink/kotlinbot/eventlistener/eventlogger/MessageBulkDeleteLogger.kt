@@ -1,6 +1,7 @@
 package com.wink.kotlinbot.eventlistener.eventlogger
 
 import com.wink.kotlinbot.entity.MessageEntity
+import com.wink.kotlinbot.property.ChannelNames
 import com.wink.kotlinbot.repository.MessageRepository
 import com.wink.kotlinbot.service.ILoggedMessageFormatter
 import com.wink.kotlinbot.service.IMessageSender
@@ -15,7 +16,8 @@ import java.lang.StringBuilder
 class MessageBulkDeleteLogger @Autowired constructor(
         private val repository: MessageRepository,
         private val formatter: ILoggedMessageFormatter,
-        private val messageSender: IMessageSender
+        private val messageSender: IMessageSender,
+        private val channels: ChannelNames
 ) : ListenerAdapter() {
 
     companion object {
@@ -23,9 +25,7 @@ class MessageBulkDeleteLogger @Autowired constructor(
     }
 
     override fun onMessageBulkDelete(event: MessageBulkDeleteEvent) {
-        val deletedMessagesChannel: TextChannel = try {
-            event.guild.getTextChannelsByName("deleted-messages", false)[0]
-        } catch(e: IndexOutOfBoundsException) { null } ?: return
+        val bulkDeletedMessagesChannel: TextChannel = getBulkDeletedMessagesChannel(event) ?: return
 
         val sb = StringBuilder("**__BULK DELETE__**\n")
         val deletedMessages: List<MessageEntity> = repository.findByMessageIdIn(event.messageIds.map { it.toLong() })
@@ -37,17 +37,28 @@ class MessageBulkDeleteLogger @Autowired constructor(
 
             // Avoid exceeding the maximum message length in discord or the output looks ugly
             if (sb.length + message.attachment.length + formattedMessage.length >= MAX_MESSAGE_LENGTH) {
-                messageSender.sendMessage(deletedMessagesChannel, sb.toString())
+                messageSender.sendMessage(bulkDeletedMessagesChannel, sb.toString())
                 sb.clear()
             }
             // Make sure attachments appear at the bottom of their message
             else if (message.attachment.isNotEmpty()) {
                 sb.append(formattedMessage + "\n" + message.attachment)
-                messageSender.sendMessage(deletedMessagesChannel, sb.toString())
+                messageSender.sendMessage(bulkDeletedMessagesChannel, sb.toString())
                 sb.clear()
             }
             sb.append(formattedMessage + "\n")
         }
-        messageSender.sendMessage(deletedMessagesChannel, sb.toString())
+        messageSender.sendMessage(bulkDeletedMessagesChannel, sb.toString())
+    }
+
+    private fun getBulkDeletedMessagesChannel(event: MessageBulkDeleteEvent): TextChannel? {
+        return try {
+            // Try to find channel with name according to properties
+            event.guild.getTextChannelsByName(channels.bulkDeletedMessages ?: throw Exception(), false)[0]
+        } catch(e: Exception) {
+            // If no such channel exists, stop trying to log this event
+            event.jda.removeEventListener(this)
+            null
+        }
     }
 }

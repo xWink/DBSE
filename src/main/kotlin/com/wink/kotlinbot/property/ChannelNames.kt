@@ -10,5 +10,5 @@ data class ChannelNames(
         var deletedMessages: String? = null,
         var bulkDeletedMessages: String? = null,
         var editedMessages: String? = null,
-        var channels: String? = null
+        var channelOptions: String? = null
 )

@@ -1,4 +1,4 @@
-# Discord-Bot-Spring-Edition
+# DBSE (Discord Bot - Spring Edition)
 A remastered version of the University of Guelph Bachelor of Computing Discord Bot using Kotlin Spring
 
 # Functionality

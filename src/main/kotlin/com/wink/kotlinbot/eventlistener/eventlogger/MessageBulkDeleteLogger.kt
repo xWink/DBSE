@@ -4,7 +4,7 @@ import com.wink.kotlinbot.entity.MessageEntity
 import com.wink.kotlinbot.property.ChannelNames
 import com.wink.kotlinbot.repository.MessageRepository
 import com.wink.kotlinbot.service.ILoggedMessageFormatter
-import com.wink.kotlinbot.service.IMessageSender
+import com.wink.kotlinbot.service.IMessenger
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.message.MessageBulkDeleteEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
@@ -16,7 +16,7 @@ import java.lang.StringBuilder
 class MessageBulkDeleteLogger @Autowired constructor(
         private val repository: MessageRepository,
         private val formatter: ILoggedMessageFormatter,
-        private val messageSender: IMessageSender,
+        private val messenger: IMessenger,
         private val channels: ChannelNames
 ) : ListenerAdapter() {
 
@@ -37,18 +37,18 @@ class MessageBulkDeleteLogger @Autowired constructor(
 
             // Avoid exceeding the maximum message length in discord or the output looks ugly
             if (sb.length + message.attachment.length + formattedMessage.length >= MAX_MESSAGE_LENGTH) {
-                messageSender.sendMessage(bulkDeletedMessagesChannel, sb.toString())
+                messenger.sendMessage(bulkDeletedMessagesChannel, sb.toString())
                 sb.clear()
             }
             // Make sure attachments appear at the bottom of their message
             else if (message.attachment.isNotEmpty()) {
                 sb.append(formattedMessage + "\n" + message.attachment)
-                messageSender.sendMessage(bulkDeletedMessagesChannel, sb.toString())
+                messenger.sendMessage(bulkDeletedMessagesChannel, sb.toString())
                 sb.clear()
             }
             sb.append(formattedMessage + "\n")
         }
-        messageSender.sendMessage(bulkDeletedMessagesChannel, sb.toString())
+        messenger.sendMessage(bulkDeletedMessagesChannel, sb.toString())
     }
 
     private fun getBulkDeletedMessagesChannel(event: MessageBulkDeleteEvent): TextChannel? {

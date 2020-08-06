@@ -3,13 +3,13 @@ package com.wink.kotlinbot.command.admin
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.wink.kotlinbot.extension.attachmentProxy
-import com.wink.kotlinbot.service.IMessageSender
+import com.wink.kotlinbot.service.IMessenger
 import net.dv8tion.jda.api.Permission
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class Echo @Autowired constructor(private val messageSender: IMessageSender) : Command() {
+class Echo @Autowired constructor(private val messenger: IMessenger) : Command() {
 
     init {
         name = "echo"
@@ -20,6 +20,6 @@ class Echo @Autowired constructor(private val messageSender: IMessageSender) : C
 
     override fun execute(event: CommandEvent) {
         event.message.delete().queue()
-        messageSender.sendMessage(event.channel, event.args + event.message.attachmentProxy())
+        messenger.sendMessage(event.channel, event.args + event.message.attachmentProxy())
     }
 }

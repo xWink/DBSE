@@ -3,7 +3,7 @@ package com.wink.kotlinbot.service
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.utils.AttachmentOption
 
-interface IMessageSender {
+interface IMessenger {
 
     /**
      * Sends a given message to a given channel. If the message length exceeds the maximum allowed by Discord (2000),

@@ -2,7 +2,7 @@ package com.wink.kotlinbot.command.misc
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
-import com.wink.kotlinbot.service.IMessageSender
+import com.wink.kotlinbot.service.IMessenger
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 import kotlin.random.Random.Default.nextBoolean
 
 @Component
-class Flip @Autowired constructor(private val messageSender: IMessageSender) : Command() {
+class Flip @Autowired constructor(private val messenger: IMessenger) : Command() {
 
     @Value("classpath:loonie_heads.png")
     private val heads: Resource? = null
@@ -28,9 +28,9 @@ class Flip @Autowired constructor(private val messageSender: IMessageSender) : C
         val message = if (isHeads) "Heads!" else ("Tails!")
         val file = if (isHeads) heads else tails
         if (file == null) {
-            messageSender.sendMessage(event.channel, message)
+            messenger.sendMessage(event.channel, message)
         } else {
-            messageSender.sendMessage(event.channel, message, file.file.readBytes(), "coin.png")
+            messenger.sendMessage(event.channel, message, file.file.readBytes(), "coin.png")
         }
     }
 }

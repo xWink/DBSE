@@ -3,14 +3,14 @@ package com.wink.kotlinbot.command.misc
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.wink.kotlinbot.property.BotProperties
-import com.wink.kotlinbot.service.impl.MessagingService
+import com.wink.kotlinbot.service.IMessenger
 import net.dv8tion.jda.api.entities.MessageChannel
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
 class Id @Autowired constructor(
-        private val messageSender: MessagingService,
+        private val messenger: IMessenger,
         private val botProperties: BotProperties
 ) : Command() {
 
@@ -29,12 +29,12 @@ class Id @Autowired constructor(
 
         var out: String? = event.jda.getUserById(id)?.name
         out = if (out != null) "Found user: $out" else "Could not find a user with that ID"
-        messageSender.sendMessage(event.channel, out)
+        messenger.sendMessage(event.channel, out)
     }
 
     private fun sendHelp(channel: MessageChannel) {
         val call: String = botProperties.commandPrefix + name
         val errorOut = "Expected: $call $arguments\nExample: `$call 192882738527731712`"
-        messageSender.sendMessage(channel, errorOut)
+        messenger.sendMessage(channel, errorOut)
     }
 }

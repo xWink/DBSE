@@ -4,21 +4,19 @@ import com.wink.kotlinbot.entity.MessageEntity
 import com.wink.kotlinbot.property.ChannelNames
 import com.wink.kotlinbot.repository.MessageRepository
 import com.wink.kotlinbot.service.ILoggedMessageFormatter
-import com.wink.kotlinbot.service.IMessageSender
+import com.wink.kotlinbot.service.IMessenger
 import com.wink.kotlinbot.service.impl.MessageConvertingService
 import net.dv8tion.jda.api.entities.TextChannel
-import net.dv8tion.jda.api.events.message.MessageBulkDeleteEvent
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.lang.IndexOutOfBoundsException
 
 @Component
 class MessageUpdateLogger @Autowired constructor(
         private val repository: MessageRepository,
         private val formatter: ILoggedMessageFormatter,
-        private val messageSender: IMessageSender,
+        private val messenger: IMessenger,
         private val converter: MessageConvertingService,
         private val channels: ChannelNames
 ) : ListenerAdapter() {
@@ -38,7 +36,7 @@ class MessageUpdateLogger @Autowired constructor(
 
         event.jda.retrieveUserById(originalMessage.authorId).queue() {
             val message: String = formatter.format(originalMessage.timeSentMillis, channel, it.name, originalContent)
-            messageSender.sendMessage(editedMessagesChannel, message)
+            messenger.sendMessage(editedMessagesChannel, message)
         }
     }
 

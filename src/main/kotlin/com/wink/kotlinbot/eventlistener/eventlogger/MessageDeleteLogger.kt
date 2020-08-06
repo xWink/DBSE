@@ -4,10 +4,9 @@ import com.wink.kotlinbot.entity.MessageEntity
 import com.wink.kotlinbot.property.ChannelNames
 import com.wink.kotlinbot.repository.MessageRepository
 import com.wink.kotlinbot.service.ILoggedMessageFormatter
-import com.wink.kotlinbot.service.IMessageSender
+import com.wink.kotlinbot.service.IMessenger
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent
-import net.dv8tion.jda.api.events.message.MessageUpdateEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -16,7 +15,7 @@ import org.springframework.stereotype.Component
 class MessageDeleteLogger @Autowired constructor(
         private val repository: MessageRepository,
         private val formatter: ILoggedMessageFormatter,
-        private val messageSender: IMessageSender,
+        private val messenger: IMessenger,
         private val channels: ChannelNames
 ) : ListenerAdapter() {
 
@@ -30,7 +29,7 @@ class MessageDeleteLogger @Autowired constructor(
         val content: String = entity.content + "\n" + entity.attachment
 
         val message: String = formatter.format(entity.timeSentMillis, channel, author, content)
-        messageSender.sendMessage(deletedMessagesChannel, message)
+        messenger.sendMessage(deletedMessagesChannel, message)
     }
 
     private fun getDeletedMessagesChannel(event: MessageDeleteEvent): TextChannel? {

@@ -1,12 +1,12 @@
 package com.wink.kotlinbot.service.impl
 
-import com.wink.kotlinbot.service.IMessageSender
+import com.wink.kotlinbot.service.IMessenger
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.utils.AttachmentOption
 import org.springframework.stereotype.Service
 
 @Service
-class MessagingService : IMessageSender {
+class MessagingService : IMessenger {
 
     companion object {
         private const val MAX_MESSAGE_LENGTH = 2000

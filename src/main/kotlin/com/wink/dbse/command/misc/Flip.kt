@@ -20,7 +20,7 @@ class Flip @Autowired constructor(private val messenger: IMessenger) : Command()
 
     init {
         name = "flip"
-        help = "Flips a coin and shows its top face"
+        help = "Flips a coin and shows the result"
     }
 
     override fun execute(event: CommandEvent) {

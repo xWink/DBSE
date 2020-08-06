@@ -14,6 +14,26 @@
       "name": "bot.commandPrefix",
       "type": "java.lang.String",
       "description": "Description for bot.commandPrefix."
+    },
+    {
+      "name": "channel.name.welcome",
+      "type": "java.lang.String",
+      "description": "Name of channel where welcome message is posted."
+    },
+    {
+      "name": "channel.name.deletedMessages",
+      "type": "java.lang.String",
+      "description": "Name of channel where deleted messages are logged."
+    },
+    {
+      "name": "channel.name.editedMessages",
+      "type": "java.lang.String",
+      "description": "Name of channel where edited messages are logged."
+    },
+    {
+      "name": "channel.name.channels",
+      "type": "java.lang.String",
+      "description": "Name of channel where the opt-in channel list is displayed."
     }
   ]
 }

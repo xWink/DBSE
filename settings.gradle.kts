@@ -1,1 +1,1 @@
-rootProject.name = "KotlinBot"
+rootProject.name = "DBSE"

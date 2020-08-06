@@ -29,13 +29,13 @@ class MessagingService : IMessageSender {
      * @param channel the channel the message should be sent to
      * @param message the message to send
      * @param attachment the attachment to include in the message
-     * @param name the name of the attachment
+     * @param attachmentName the name of the attachment
      * @param options settings to configure the attachment
      */
-    override fun sendMessage(channel: MessageChannel, message: String, attachment: ByteArray, name: String, vararg options: AttachmentOption) {
+    override fun sendMessage(channel: MessageChannel, message: String, attachment: ByteArray, attachmentName: String, vararg options: AttachmentOption) {
         val messages = message.chunked(MAX_MESSAGE_LENGTH)
         val numMessages = messages.size
         messages.subList(0, numMessages - 1).forEach { channel.sendMessage(it).queue() }
-        channel.sendMessage(messages[numMessages - 1]).addFile(attachment, name, *options).queue()
+        channel.sendMessage(messages[numMessages - 1]).addFile(attachment, attachmentName, *options).queue()
     }
 }

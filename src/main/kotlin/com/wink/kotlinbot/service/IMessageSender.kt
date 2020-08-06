@@ -20,8 +20,8 @@ interface IMessageSender {
      * @param channel the channel the message should be sent to
      * @param message the message to send
      * @param attachment the attachment to include in the message
-     * @param name the name of the attachment
+     * @param attachmentName the name of the attachment
      * @param options options to configure the attachment
      */
-    fun sendMessage(channel: MessageChannel, message: String, attachment: ByteArray, name: String, vararg options: AttachmentOption)
+    fun sendMessage(channel: MessageChannel, message: String, attachment: ByteArray, attachmentName: String, vararg options: AttachmentOption)
 }

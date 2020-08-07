@@ -31,7 +31,7 @@ class MessageCollector @Autowired constructor(
             return
         }
 
-        val Entity: MessageEntity = converter.convert(event)
-        repository.save(Entity)
+        val entity: MessageEntity = converter.convert(event)
+        repository.save(entity)
     }
 }

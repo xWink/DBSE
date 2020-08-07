@@ -3,8 +3,8 @@ A remastered version of the University of Guelph Bachelor of Computing Discord B
 
 # Functionality
 * Message backups - every message that is not made by a bot and does not trigger a bot command is stored with MariaDB
-* Edited Message Tracking - when a user edits a message, the previous version of that message is logged in a channel named "edited-messages"
-* Deleted Message Tracking - when a user deletes a message, the latest version of that message is logged in a channel named "deleted-messages"
+* Edited Message Tracking - when a user edits a message, the previous version of that message is logged in a channel chosen by configuration
+* Deleted Message Tracking - when a user deletes a message, the latest version of that message is logged in a channel chosen by configuration
 * Admin Commands:
 
   1. `!echo <content>` - deletes the caller's message and repeats the content requested, including attachments

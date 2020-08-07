@@ -10,8 +10,8 @@ import java.time.format.DateTimeFormatter
 class LoggedMessageFormattingService : ILoggedMessageFormatter {
 
     companion object {
-        val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm:ss")
-        val EST: ZoneId = ZoneId.of("America/Toronto")
+        private val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("MMM dd yyyy, HH:mm:ss")
+        private val EST: ZoneId = ZoneId.of("America/Toronto")
     }
 
     /**

@@ -33,7 +33,7 @@ class MessageBulkDeleteLogger @Autowired constructor(
         for (message in deletedMessages) {
             val authorName: String = event.jda.getUserById(message.authorId)?.name ?: "Unknown Author"
             val channelName: String = event.guild.getTextChannelById(message.channelId)?.name ?: "Unknown Channel"
-            val formattedMessage: String = formatter.format(message.timeSentMillis, channelName, authorName, message.content)
+            val formattedMessage: String = formatter.format(message.timeSentSecs, channelName, authorName, message.content)
 
             // Avoid exceeding the maximum message length in discord or the output looks ugly
             if (sb.length + message.attachment.length + formattedMessage.length >= MAX_MESSAGE_LENGTH) {

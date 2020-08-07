@@ -24,7 +24,7 @@ class MessageUpdateLogger @Autowired constructor(
     override fun onMessageUpdate(event: MessageUpdateEvent) {
         val editedMessage: MessageEntity = converter.convert(event)
         logOriginalMessage(event, editedMessage)
-        repository.updateByMessageId(editedMessage.messageId, editedMessage.timeSentMillis, editedMessage.content)
+        repository.updateByMessageId(editedMessage.messageId, editedMessage.timeSentSecs, editedMessage.content)
     }
 
     private fun logOriginalMessage(event: MessageUpdateEvent, editedMessage: MessageEntity) {
@@ -35,7 +35,7 @@ class MessageUpdateLogger @Autowired constructor(
         val channel: String? = event.guild.getTextChannelById(originalMessage.channelId)?.name
 
         event.jda.retrieveUserById(originalMessage.authorId).queue() {
-            val message: String = formatter.format(originalMessage.timeSentMillis, channel, it.name, originalContent)
+            val message: String = formatter.format(originalMessage.timeSentSecs, channel, it.name, originalContent)
             messenger.sendMessage(editedMessagesChannel, message)
         }
     }

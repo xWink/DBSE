@@ -16,6 +16,6 @@ interface MessageRepository : JpaRepository<MessageEntity, Long> {
 
     @Modifying
     @Transactional
-    @Query("update MessageEntity m set m.timeSentMillis = ?2, m.content = ?3 where m.messageId = ?1")
+    @Query("update MessageEntity m set m.timeSentSecs = ?2, m.content = ?3 where m.messageId = ?1")
     fun updateByMessageId(messageId: Long, timeSentMillis: Long, content: String)
 }

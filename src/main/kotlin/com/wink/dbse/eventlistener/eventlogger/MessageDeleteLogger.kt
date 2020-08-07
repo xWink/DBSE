@@ -28,7 +28,7 @@ class MessageDeleteLogger @Autowired constructor(
         val channel: String? = guild.getTextChannelById(entity.channelId)?.name
         val content: String = entity.content + "\n" + entity.attachment
 
-        val message: String = formatter.format(entity.timeSentMillis, channel, author, content)
+        val message: String = formatter.format(entity.timeSentSecs, channel, author, content)
         messenger.sendMessage(deletedMessagesChannel, message)
     }
 

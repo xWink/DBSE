@@ -23,21 +23,21 @@ class MessageConvertingService : Converter<GenericMessageEvent, MessageEntity> {
     }
 
     private fun convert(source: MessageReceivedEvent): MessageEntity {
-        return convert(source.message, source.message.timeCreated.toEpochSecond() * 1000L)
+        return convert(source.message, source.message.timeCreated.toEpochSecond())
     }
 
     private fun convert(source: MessageUpdateEvent): MessageEntity {
         val message: Message = source.message
         val timeEdited: OffsetDateTime = message.timeEdited!!
-        return convert(message, timeEdited.toEpochSecond() * 1000L)
+        return convert(message, timeEdited.toEpochSecond())
     }
 
-    private fun convert(message: Message, timeSentMillis: Long): MessageEntity {
+    private fun convert(message: Message, timeSentSecs: Long): MessageEntity {
         return MessageEntity(
                 messageId = message.idLong,
                 authorId = message.author.idLong,
                 channelId = message.channel.idLong,
-                timeSentMillis = timeSentMillis,
+                timeSentSecs = timeSentSecs,
                 content = message.contentRaw,
                 attachment = message.attachmentProxy())
     }

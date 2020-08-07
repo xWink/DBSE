@@ -20,14 +20,14 @@ class LoggedMessageFormattingService : ILoggedMessageFormatter {
      *
      * Example: [Jul 18 2020, 13:38:39] <general> {Wink}: test
      *
-     * @param timeSentMillis time in milliseconds since epoch that the message was sent at
+     * @param timeSentSecs time in seconds since epoch that the message was sent at
      * @param channel name of the channel that the message was sent in
      * @param author name of the author of the message
      * @param content content of the message
      * @return a formatted String containing data about a message
      */
-    override fun format(timeSentMillis: Long, channel: String?, author: String?, content: String): String {
-        val localDateTime: String = Instant.ofEpochMilli(timeSentMillis).atZone(EST).toLocalDateTime().format(FORMATTER)
+    override fun format(timeSentSecs: Long, channel: String?, author: String?, content: String): String {
+        val localDateTime: String = Instant.ofEpochSecond(timeSentSecs).atZone(EST).toLocalDateTime().format(FORMATTER)
         return "[${localDateTime}] <${channel ?: "Unknown Channel"}> {${author ?: "Unknown Author"}}: " + content
     }
 }

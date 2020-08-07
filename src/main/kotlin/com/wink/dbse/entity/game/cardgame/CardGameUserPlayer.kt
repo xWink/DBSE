@@ -7,6 +7,4 @@ import net.dv8tion.jda.api.entities.User
 open class CardGameUserPlayer(
         user: User,
         override val hand: Hand = Hand()
-) : UserPlayer(user), ICardGamePlayer {
-    override var isDone: Boolean = false
-}
+) : UserPlayer(user), ICardGamePlayer

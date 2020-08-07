@@ -8,64 +8,52 @@ import com.wink.dbse.entity.game.cardgame.card.CardRank
 import com.wink.dbse.entity.game.cardgame.card.Deck
 import com.wink.dbse.entity.game.cardgame.card.Hand
 
-class BlackJack(vararg players: CardGameUserPlayer) : CardGame(Deck.create(5), *players) {
+class BlackJack(player: CardGameUserPlayer) : CardGame(player, Deck.create(5)) {
+
+    private val dealer = CardGameCpuPlayer()
+
+    override fun start() {
+        isOver = false
+        deck.shuffle()
+        dealer.hand.addAll(deck.drawFromTop(2))
+        player.hand.clear()
+        player.hand.addAll(deck.drawFromTop(2))
+    }
 
     enum class Move {
         STAND, HIT, DOUBLE
     }
 
-    enum class WinReason {
-        BLACK_JACK, TWENTY_ONE, HIGH_HAND, NO_BUST, NO_WINNER
-    }
-
-    private val dealer = CardGameCpuPlayer()
-    override val winners = mutableListOf<ICardGamePlayer>()
-    private var winReason: WinReason = WinReason.NO_WINNER
-
-    override fun start() {
-        isOver = false
-        winners.clear()
-        deck.shuffle()
-        dealer.hand.addAll(deck.drawFromTop(2))
-        players.forEach {
-            it.isDone = false
-            it.hand.clear()
-            it.hand.add(deck.pickTopCard())
-        }
-    }
-
-    fun makeMove(player: ICardGamePlayer, move: Move) {
-        if (player != dealer && player !in players) {
-            throw IllegalArgumentException("Player must be in this game to make a move")
-        }
+    fun makeMove(move: Move) {
         when (move) {
-            Move.STAND -> stand(player)
-            Move.HIT -> hit(player)
-            Move.DOUBLE -> double(player)
+            Move.STAND -> stand()
+            Move.HIT -> hit()
+            Move.DOUBLE -> double()
         }
     }
 
-    private fun stand(player: ICardGamePlayer) {
-        player.isDone = true
-        if (players.all { it.isDone }) {
-            dealerPlays()
-        }
+    private fun stand() {
+        dealerPlays()
     }
 
-    private fun hit(player: ICardGamePlayer) {
+    private fun hit() {
         player.hand.add(deck.pickTopCard())
     }
 
-    private fun double(player: ICardGamePlayer) {
+    private fun double() {
         // TODO
     }
 
     private fun dealerPlays() {
         while (valueOf(dealer.hand) < 17) {
-            hit(dealer)
+            dealer.hand.add(deck.pickTopCard())
         }
-        dealer.isDone = true
         decideWinner()
+    }
+
+    enum class WinReason {
+        BLACK_JACK, TWENTY_ONE, HIGH_HAND, NO_BUST, NO_WINNER
+        //TODO: ADD CALCULATION?
     }
 
     private fun decideWinner() {

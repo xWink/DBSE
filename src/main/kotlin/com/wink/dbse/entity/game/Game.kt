@@ -1,9 +1,8 @@
 package com.wink.dbse.entity.game
 
-abstract class Game {
+abstract class Game(open val player: UserPlayer) {
 
     protected var isOver: Boolean = true
-    protected abstract val winners: MutableList<out IPlayer>
 
     abstract fun start()
 }

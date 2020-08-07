@@ -6,5 +6,4 @@ import com.wink.dbse.entity.game.cardgame.card.Hand
 interface ICardGamePlayer : IPlayer {
 
     val hand: Hand
-    var isDone: Boolean
 }

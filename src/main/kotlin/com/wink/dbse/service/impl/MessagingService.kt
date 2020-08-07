@@ -34,8 +34,7 @@ class MessagingService : IMessenger {
      */
     override fun sendMessage(channel: MessageChannel, message: String, attachment: ByteArray, attachmentName: String, vararg options: AttachmentOption) {
         val messages = message.chunked(MAX_MESSAGE_LENGTH)
-        val numMessages = messages.size
-        messages.subList(0, numMessages - 1).forEach { channel.sendMessage(it).queue() }
-        channel.sendMessage(messages[numMessages - 1]).addFile(attachment, attachmentName, *options).queue()
+        messages.subList(0, messages.lastIndex).forEach { channel.sendMessage(it).queue() }
+        channel.sendMessage(messages.last()).addFile(attachment, attachmentName, *options).queue()
     }
 }

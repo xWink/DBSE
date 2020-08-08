@@ -2,6 +2,7 @@ package com.wink.dbse.service.impl
 
 import com.wink.dbse.service.IMessenger
 import net.dv8tion.jda.api.entities.MessageChannel
+import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.utils.AttachmentOption
 import org.springframework.stereotype.Service
 
@@ -20,6 +21,16 @@ class MessagingService : IMessenger {
      */
     override fun sendMessage(channel: MessageChannel, message: String) {
         message.chunked(MAX_MESSAGE_LENGTH).forEach { channel.sendMessage(it).queue() }
+    }
+
+    /**
+     * Sends a given message to a given channel. If the message length exceeds the maximum allowed by Discord (2000),
+     * the message is broken up into multiple messages which are all sent in order.
+     * @param channel the channel the message should be sent to
+     * @param embed the embeded message to send
+     */
+    override fun sendMessage(channel: MessageChannel, embed: MessageEmbed) {
+        channel.sendMessage(embed).queue()
     }
 
     /**

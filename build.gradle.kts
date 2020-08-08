@@ -33,6 +33,7 @@ dependencies {
     }
     implementation("net.dv8tion:JDA:4.1.1_165")
     implementation("com.jagrosh:jda-utilities:3.0.4")
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:0.11.0")
     runtimeOnly(group = "org.mariadb.jdbc", name = "mariadb-java-client", version = "2.2.0")
 }
 

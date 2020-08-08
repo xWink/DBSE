@@ -1,4 +1,4 @@
-package com.wink.dbse.eventlistener.eventlogger
+package com.wink.dbse.eventlistener
 
 import com.wink.dbse.entity.MessageEntity
 import com.wink.dbse.property.ChannelNames

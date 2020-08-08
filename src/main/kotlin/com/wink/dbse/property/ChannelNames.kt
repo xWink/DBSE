@@ -4,7 +4,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@ConfigurationProperties(prefix = "channel.name")
+@ConfigurationProperties(prefix = "bot.channel.name")
 data class ChannelNames(
         var welcome: String? = null,
         var deletedMessages: String? = null,

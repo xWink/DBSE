@@ -1,0 +1,64 @@
+--------------------------------------\n**GAMES**
+Minecraft
+Nintendo
+Shooters
+Strategy
+Tabletop
+--------------------------------------\n\n\n--------------------------------------\n**4000 LEVEL COURSES**
+CIS*4010 - Cloud
+CIS*4030 - Mobile
+CIS*4050 - Digital Systems II
+CIS*4150 - Reliability
+CIS*4250 - Design V
+CIS*4300 - HCI
+CIS*4450 - Special Topics
+CIS*4510 - Security
+CIS*4520 - Cryptography
+CIS*4650 - Compilers
+CIS*4780 - Intelligence
+CIS*4900 - CS Project
+CIS*4910 - CS Thesis
+--------------------------------------\n\n\n--------------------------------------\n**3000 LEVEL COURSES**
+CIS*3050 - Systems Programming
+CIS*3090 - Parallel
+CIS*3110 - OS
+CIS*3120 - Digital Systems I
+CIS*3130 - System Modeling
+CIS*3150 - Theory of Comp
+CIS*3190 - Legacy Software
+CIS*3210 - Networks
+CIS*3250 - Design III
+CIS*3260 - Design IV
+CIS*3490 - Algorithms
+CIS*3530 - Databases
+CIS*3750 - System Analysis
+CIS*3760 - Software Engineering
+--------------------------------------\n\n\n--------------------------------------\n**2000 LEVEL COURSES**
+CIS*2030 - Microcomputers
+CIS*2170 - UI Design
+CIS*2250 - Design II
+CIS*2430 - OOP
+CIS*2500 - Programming II
+CIS*2520 - Data Structs
+CIS*2750 - Angel of Death
+CIS*2910 - Discrete II
+MATH*2000 - Proofs
+MATH*2200 - Advanced Calc I
+MATH*2270 - Applied Diffies
+STAT*2040 - Statistics
+--------------------------------------\n\n\n--------------------------------------\n**1000 LEVEL COURSES**
+CIS*1250 - Design I
+CIS*1300 - Programming I
+CIS*1910 - Discrete I
+COOP*1100 - Intro to Coop
+ECON*1050 - Intro to Micro
+MATH*1160 - Linear Algebra
+MATH*1200 - Calculus I
+MATH*1210 - Calculus II
+--------------------------------------\n\n\n--------------------------------------\n**Guelph Coding Community - Events and Challenges**
+GCC
+--------------------------------------\n\n--------------------------------------\n**All Channels**
+All
+--------------------------------------\n\n\n**__This is where you choose which channels you can see__**\n\n**Click the green check mark below the channel you wish to join.**\n*You can click it again to leave.*\n\n\n--------------------------------------------------------------------------\n**Take this role if you want to be notified by announcements related to your selected channels**\n*Note: if you have "All",  you will not receive announcements for all channels*
+Notify
+--------------------------------------------------------------------------

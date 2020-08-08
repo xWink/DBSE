@@ -16,27 +16,27 @@
       "description": "Description for bot.commandPrefix."
     },
     {
-      "name": "channel.name.welcome",
+      "name": "bot.channel.name.welcome",
       "type": "java.lang.String",
       "description": "Name of channel where welcome message is posted."
     },
     {
-      "name": "channel.name.deletedMessages",
+      "name": "bot.channel.name.deletedMessages",
       "type": "java.lang.String",
       "description": "Name of channel where deleted messages are logged."
     },
     {
-      "name": "channel.name.bulkDeletedMessages",
+      "name": "bot.channel.name.bulkDeletedMessages",
       "type": "java.lang.String",
       "description": "Name of channel where bulk deleted messages are logged."
     },
     {
-      "name": "channel.name.editedMessages",
+      "name": "bot.channel.name.editedMessages",
       "type": "java.lang.String",
       "description": "Name of channel where edited messages are logged."
     },
     {
-      "name": "channel.name.channelOptions",
+      "name": "bot.channel.name.channelOptions",
       "type": "java.lang.String",
       "description": "Name of channel where the opt-in channel options are displayed."
     }

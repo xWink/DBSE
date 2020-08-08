@@ -46,12 +46,9 @@ class Info @Autowired constructor(
     private fun embedCourseData(data: Map<String, String>): EmbedBuilder {
         val eb = EmbedBuilder()
         eb.setTitle(data["Course Title"])
-        eb.addField("Restrictions:", cleanForEmbed(data["Restrictions"]), false)
-        eb.addField("Prerequisites:", cleanForEmbed(data["Prerequisites"]), false)
+        eb.addField("Restrictions:", data["Restrictions"]?.replace("Restriction(s): ", "")?.replace("*", "\\*"), false)
+        eb.addField("Prerequisites:", data["Prerequisites"]?.replace("Prerequisite(s): ", "")?.replace("*", "\\*"), false)
         eb.addField("Description: ", data["Descriptions"], false)
         return eb
     }
-
-    private fun cleanForEmbed(string: String?): String? =
-            string?.replace("Restriction(s): ", "")?.replace("*", "\\*")
 }

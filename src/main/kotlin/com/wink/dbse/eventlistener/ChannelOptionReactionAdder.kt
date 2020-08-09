@@ -15,7 +15,7 @@ class ChannelOptionReactionAdder @Autowired constructor(
 ) : ListenerAdapter() {
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
-        if (event.channel.id != channelIds.channelOptions) {
+        if (event.channel.id != channelIds.channelOptions || !event.author.isBot) {
             return
         }
 

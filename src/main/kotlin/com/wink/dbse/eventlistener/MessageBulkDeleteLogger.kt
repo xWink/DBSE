@@ -26,8 +26,8 @@ class MessageBulkDeleteLogger @Autowired constructor(
 
     override fun onMessageBulkDelete(event: MessageBulkDeleteEvent) {
         val bulkDeletedMessagesChannel: TextChannel = getBulkDeletedMessagesChannel(event) ?: return
-
-        val sb = StringBuilder("**__BULK DELETE__**\n")
+        val title = "**__BULK DELETE__**\n"
+        val sb = StringBuilder(title)
         val deletedMessages: List<MessageEntity> = repository.findByMessageIdIn(event.messageIds.map { it.toLong() })
 
         for (message in deletedMessages) {
@@ -48,7 +48,9 @@ class MessageBulkDeleteLogger @Autowired constructor(
             }
             sb.append(formattedMessage + "\n")
         }
-        messenger.sendMessage(bulkDeletedMessagesChannel, sb.toString())
+        if (sb.length > title.length) {
+            messenger.sendMessage(bulkDeletedMessagesChannel, sb.toString())
+        }
     }
 
     private fun getBulkDeletedMessagesChannel(event: MessageBulkDeleteEvent): TextChannel? {

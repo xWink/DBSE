@@ -14,6 +14,7 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
+import java.util.concurrent.atomic.AtomicReference
 
 @Component
 class ChannelOptionsReactionListener @Autowired constructor(
@@ -24,19 +25,17 @@ class ChannelOptionsReactionListener @Autowired constructor(
         private val converter: ChannelNameConvertingService
 ) : ListenerAdapter() {
 
-    override fun onMessageReactionAdd(event: MessageReactionAddEvent) = runBlocking {
+    override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
         if (event.channel.id != channelIds.channelOptions || event.reactionEmote.id != emoteIds.confirm) {
-            return@runBlocking
+            return
         }
 
         val guild = event.guild
         val content: String = event.channel.retrieveMessageById(event.messageIdLong).complete().contentRaw
 
         // Get corresponding role
-        val role: Deferred<Role> = async {
-            guild.getRolesByName(content, true).getOrNull(0)
-                    ?: guild.createRole().setName(content).complete()
-        }
+        val role: Role = guild.getRolesByName(content, true)
+                .getOrElse(0) { guild.createRole().setName(content).complete() }
 
         // If the role is not specifically for utility (All/Notify)
         if (roleIds.globalAccess?.any { guild.getRoleById(it)?.name == content } != true
@@ -45,12 +44,12 @@ class ChannelOptionsReactionListener @Autowired constructor(
             // Create the corresponding channel if it doesn't exist
             val channelName = converter.convert(content)
             guild.getTextChannelsByName(channelName, false)
-                    .ifEmpty { service.createPrivateChannel(guild, channelName, role.await()) }
+                    .ifEmpty { service.createPrivateChannel(guild, channelName, role) }
         }
 
         // If the user is not a bot, give them the role
         if (event.user?.isBot == false) {
-            guild.addRoleToMember(event.userIdLong, role.await()).queue()
+            guild.addRoleToMember(event.userIdLong, role).queue()
         }
     }
 
@@ -59,6 +58,10 @@ class ChannelOptionsReactionListener @Autowired constructor(
             return
         }
 
+        val guild = event.guild
+        val content: String = event.channel.retrieveMessageById(event.messageIdLong).complete().contentRaw
+        val role: Role = guild.getRolesByName(content, true).getOrNull(0) ?: return
 
+        guild.removeRoleFromMember(event.member ?: return, role).queue()
     }
 }

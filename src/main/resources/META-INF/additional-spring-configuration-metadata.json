@@ -13,42 +13,52 @@
     {
       "name": "bot.commandPrefix",
       "type": "java.lang.String",
-      "description": "Description for bot.commandPrefix."
+      "description": "Prefix for every command string."
     },
     {
-      "name": "bot.channel.name.welcome",
+      "name": "bot.channel.id.welcome",
       "type": "java.lang.String",
-      "description": "Name of channel where welcome message is posted."
+      "description": "Id of channel where welcome message is posted."
     },
     {
-      "name": "bot.channel.name.deletedMessages",
+      "name": "bot.channel.id.deletedMessages",
       "type": "java.lang.String",
-      "description": "Name of channel where deleted messages are logged."
+      "description": "Id of channel where deleted messages are logged."
     },
     {
-      "name": "bot.channel.name.bulkDeletedMessages",
+      "name": "bot.channel.id.bulkDeletedMessages",
       "type": "java.lang.String",
-      "description": "Name of channel where bulk deleted messages are logged."
+      "description": "Id of channel where bulk deleted messages are logged."
     },
     {
-      "name": "bot.channel.name.editedMessages",
+      "name": "bot.channel.id.editedMessages",
       "type": "java.lang.String",
-      "description": "Name of channel where edited messages are logged."
+      "description": "Id of channel where edited messages are logged."
     },
     {
-      "name": "bot.channel.name.channelOptions",
+      "name": "bot.channel.id.channelOptions",
       "type": "java.lang.String",
-      "description": "Name of channel where the opt-in channel options are displayed."
+      "description": "Id of channel where the opt-in channel options are displayed."
     },
     {
-      "name": "bot.role.name.muted",
+      "name": "bot.emote.id.confirm",
       "type": "java.lang.String",
-      "description": "Name of role for muted users."
+      "description": "Id of emote used as a confirmation reaction."
     },
     {
-      "name": "bot.role.name.globalAccess",
+      "name": "bot.role.id.muted",
       "type": "java.lang.String",
-      "description": "List of names of roles that should have access to every generated private channel."
+      "description": "Id of role for muted users."
+    },
+    {
+      "name": "bot.role.id.globalAccess",
+      "type": "java.lang.String",
+      "description": "List of Ids of roles that should have access to every generated private channel."
+    },
+    {
+      "name": "bot.role.id.notify",
+      "type": "java.lang.String",
+      "description": "Id of role for users that want notifications."
     }
   ]
 }

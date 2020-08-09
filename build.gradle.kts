@@ -20,11 +20,12 @@ repositories {
 }
 
 dependencies {
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1")
     kapt("org.springframework.boot:spring-boot-configuration-processor:$springBootVersion")
     compileOnly("org.springframework.boot:spring-boot-configuration-processor:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.hibernate:hibernate-validator:6.0.16.Final")
     developmentOnly("org.springframework.boot:spring-boot-devtools")

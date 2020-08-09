@@ -1,7 +1,7 @@
 package com.wink.dbse.eventlistener
 
 import com.wink.dbse.entity.MessageEntity
-import com.wink.dbse.property.ChannelNames
+import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.repository.MessageRepository
 import com.wink.dbse.service.ILoggedMessageFormatter
 import com.wink.dbse.service.IMessenger
@@ -17,7 +17,7 @@ class MessageBulkDeleteLogger @Autowired constructor(
         private val repository: MessageRepository,
         private val formatter: ILoggedMessageFormatter,
         private val messenger: IMessenger,
-        private val channels: ChannelNames
+        private val channels: ChannelIds
 ) : ListenerAdapter() {
 
     companion object {
@@ -54,7 +54,7 @@ class MessageBulkDeleteLogger @Autowired constructor(
     private fun getBulkDeletedMessagesChannel(event: MessageBulkDeleteEvent): TextChannel? {
         return try {
             // Try to find channel with name according to properties
-            event.guild.getTextChannelsByName(channels.bulkDeletedMessages ?: throw Exception(), false)[0]
+            event.guild.getTextChannelById(channels.bulkDeletedMessages ?: throw Exception())
         } catch(e: Exception) {
             // If no such channel exists, stop trying to log this event
             event.jda.removeEventListener(this)

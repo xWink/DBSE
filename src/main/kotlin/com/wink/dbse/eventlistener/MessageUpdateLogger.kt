@@ -1,7 +1,7 @@
 package com.wink.dbse.eventlistener
 
 import com.wink.dbse.entity.MessageEntity
-import com.wink.dbse.property.ChannelNames
+import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.repository.MessageRepository
 import com.wink.dbse.service.ILoggedMessageFormatter
 import com.wink.dbse.service.IMessenger
@@ -18,7 +18,7 @@ class MessageUpdateLogger @Autowired constructor(
         private val formatter: ILoggedMessageFormatter,
         private val messenger: IMessenger,
         private val converter: MessageConvertingService,
-        private val channels: ChannelNames
+        private val channels: ChannelIds
 ) : ListenerAdapter() {
 
     override fun onMessageUpdate(event: MessageUpdateEvent) {
@@ -43,7 +43,7 @@ class MessageUpdateLogger @Autowired constructor(
     private fun getUpdatedMessagesChannel(event: MessageUpdateEvent): TextChannel? {
         return try {
             // Try to find channel with name according to properties
-            event.guild.getTextChannelsByName(channels.editedMessages ?: throw Exception(), false)[0]
+            event.guild.getTextChannelById(channels.editedMessages ?: throw Exception())
         } catch(e: Exception) {
             // If no such channel exists, stop trying to log this event
             event.jda.removeEventListener(this)

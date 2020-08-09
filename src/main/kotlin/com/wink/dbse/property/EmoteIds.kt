@@ -5,6 +5,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationProperties(prefix = "bot.emote.id")
-data class EmoteIds(
+class EmoteIds(
         var confirm: String? = null
 )

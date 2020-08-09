@@ -1,6 +1,6 @@
 package com.wink.dbse.eventlistener
 
-import com.wink.dbse.property.ChannelNames
+import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.property.EmoteIds
 import net.dv8tion.jda.api.entities.Emote
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component
 
 @Component
 class ChannelOptionReactionAdder @Autowired constructor(
-        private val channelNames: ChannelNames,
+        private val channelIds: ChannelIds,
         private val emoteIds: EmoteIds
 ) : ListenerAdapter() {
 
     override fun onMessageReceived(event: MessageReceivedEvent) {
-        if (event.channel.name != channelNames.channelOptions) {
+        if (event.channel.id != channelIds.channelOptions) {
             return
         }
 

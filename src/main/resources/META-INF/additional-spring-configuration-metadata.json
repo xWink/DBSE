@@ -39,6 +39,16 @@
       "name": "bot.channel.name.channelOptions",
       "type": "java.lang.String",
       "description": "Name of channel where the opt-in channel options are displayed."
+    },
+    {
+      "name": "bot.role.name.muted",
+      "type": "java.lang.String",
+      "description": "Name of role for muted users."
+    },
+    {
+      "name": "bot.role.name.globalAccess",
+      "type": "java.lang.String",
+      "description": "List of names of roles that should have access to every generated private channel."
     }
   ]
 }

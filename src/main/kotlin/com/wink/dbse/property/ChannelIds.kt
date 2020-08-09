@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ConfigurationProperties(prefix = "bot.channel.name")
-data class ChannelNames(
+class ChannelIds(
         var welcome: String? = null,
         var deletedMessages: String? = null,
         var bulkDeletedMessages: String? = null,

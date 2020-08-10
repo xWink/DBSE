@@ -1,11 +1,9 @@
 package com.wink.dbse.service.impl
 
 import com.wink.dbse.property.RoleIds
-import kotlinx.coroutines.coroutineScope
 import net.dv8tion.jda.api.Permission
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Role
-import net.dv8tion.jda.api.entities.TextChannel
 import org.springframework.stereotype.Service
 
 @Service

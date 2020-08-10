@@ -5,16 +5,12 @@ import com.wink.dbse.property.EmoteIds
 import com.wink.dbse.property.RoleIds
 import com.wink.dbse.service.impl.ChannelNameConvertingService
 import com.wink.dbse.service.impl.PrivateChannelCreationService
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
 import net.dv8tion.jda.api.entities.Role
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
 import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
-import java.util.concurrent.atomic.AtomicReference
 
 @Component
 class ChannelOptionsReactionListener @Autowired constructor(

@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 val springBootVersion = "2.3.2.RELEASE"
 
@@ -9,7 +8,6 @@ plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("kapt") version "1.3.72"
-    id("com.github.johnrengelman.shadow") version "6.0.0"
     application
 }
 
@@ -58,16 +56,6 @@ tasks.withType<KotlinCompile> {
 tasks {
     named<Jar>("jar") {
         archiveBaseName.set("dbse")
-        manifest {
-            attributes(mapOf("Main-Class" to application.mainClassName))
-        }
-    }
-}
-
-tasks {
-    named<ShadowJar>("shadowJar") {
-        archiveBaseName.set("dbse")
-        mergeServiceFiles()
         manifest {
             attributes(mapOf("Main-Class" to application.mainClassName))
         }

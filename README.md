@@ -27,11 +27,11 @@ In order to use this bot, you must create an `application.properties` file in sr
 bot.token = <bot token>
 bot.ownerId = <your Discord user ID>
 bot.commandPrefix = <command prefix (eg. !)>
-channel.name.welcome = <name of channel with welcome message and terms of service agreement>
-channel.name.bulkDeletedMessages = <name of channel where purged messages are logged>
-channel.name.deletedMessages = <name of channel where deleted messages are logged>
-channel.name.editedMessages = <name of channel where edited messages are logged>
-channel.name.channelOptions = <name of channel where opt-in channel options are displayed>
+channel.id.welcome = <id of channel with welcome message and terms of service agreement>
+channel.id.bulkDeletedMessages = <id of channel where purged messages are logged>
+channel.id.deletedMessages = <id of channel where deleted messages are logged>
+channel.id.editedMessages = <id of channel where edited messages are logged>
+channel.id.channelOptions = <id of channel where opt-in channel options are displayed>
 bot.emote.id.confirm = <id of emote used for confirmation (like a checkmark)>
 bot.role.id.muted = <id of role representin members who cannot speak>
 bot.role.id.globalAccess = <comma-separated list of id's of roles that can see all generated channels>

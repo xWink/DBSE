@@ -47,7 +47,25 @@ spring.jpa.hibernate.ddl-auto = validate
 spring.jpa.show-sql = true
 ```
 
-You should also modify channelOptions.txt to contain the information you want. Each line is a new message.
+### Database
+
+If you are using your own database, ensure that you have a table called "message" with the following columns:
+1. message_id - BigInt (PRIMARY KEY)
+2. author_id - BigInt
+3. channel_id - BigInt
+4. time_sent_secs - BigInt
+5. content - VarChar
+6. attachment - VarChar
+
+###### Note: if the database connection fails for any reason, all components that do not depend on the db will still function
+
+### Private Channel Generation
+You should modify src/main/resources/channelOptions.txt to contain the information you want. Each line is a new message.
 Lines starting with "-" are considered decorative and will not lead to the creation of a new private channel or role.
 
-#### Note: if the database connection fails for any reason, all components that do not depend on the db will still function
+To start generating custom private channels, simply use `!showchanneloptions` in your Discord server and the bot will
+dynamically create channels based on the content of channelOptions.txt. Alongside the new channel, an associated
+role will be created. This role is what gives users access to the private channel and is given to a user when they react
+to the channel options displayed by `!showchanneloptions`.
+
+Feel free to organize the locations of the channels on the Discord sidebar to your liking once they are created!

@@ -13,13 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class ChannelOptionsReactionListener @Autowired constructor(
+final class ChannelOptionsReactionListener @Autowired constructor(
         private val channelIds: ChannelIds,
         private val roleIds: RoleIds,
         private val emoteIds: EmoteIds,
         private val service: PrivateChannelCreationService,
         private val converter: ChannelNameConvertingService
 ) : ListenerAdapter() {
+
 
     override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
         if (event.channel.id != channelIds.channelOptions || event.reactionEmote.id != emoteIds.confirm) {

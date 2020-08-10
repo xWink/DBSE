@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class ChannelOptionReactionAdder @Autowired constructor(
+final class ChannelOptionReactionAdder @Autowired constructor(
         private val channelIds: ChannelIds,
         private val emoteIds: EmoteIds
 ) : ListenerAdapter() {
@@ -19,7 +19,7 @@ class ChannelOptionReactionAdder @Autowired constructor(
             return
         }
 
-        val confirmEmote: Emote = event.jda.getEmoteById(emoteIds.confirm ?: return) ?: return
+        val confirmEmote: Emote = event.jda.getEmoteById(emoteIds.confirm!!) ?: return
         if (!event.message.contentRaw.startsWith("-")) {
             event.message.addReaction(confirmEmote).queue()
         }

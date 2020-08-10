@@ -72,8 +72,8 @@ Feel free to organize the locations of the channels on the Discord sidebar to yo
 
 # Running the Application
 The easiest ways to run this application are as follows:
-1. Using Gradle on the command line
-2. Using Intellij IDEA
+* Using Gradle on the command line
+* Using Intellij IDEA
 
 ### Executing with Gradle CLI
 1. Navigate to the root folder of this project

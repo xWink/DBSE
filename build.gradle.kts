@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
 
 val springBootVersion = "2.3.2.RELEASE"
 
@@ -8,6 +9,8 @@ plugins {
     kotlin("jvm") version "1.3.72"
     kotlin("plugin.spring") version "1.3.72"
     kotlin("kapt") version "1.3.72"
+    id("com.github.johnrengelman.shadow") version "6.0.0"
+    application
 }
 
 group = "com.wink"
@@ -22,7 +25,6 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1")
     kapt("org.springframework.boot:spring-boot-configuration-processor:$springBootVersion")
     compileOnly("org.springframework.boot:spring-boot-configuration-processor:$springBootVersion")
     implementation("org.springframework.boot:spring-boot-starter")
@@ -38,6 +40,10 @@ dependencies {
     runtimeOnly(group = "org.mariadb.jdbc", name = "mariadb-java-client", version = "2.2.0")
 }
 
+application {
+    mainClassName = "com.wink.dbse.DBSEApplicationKt"
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
@@ -46,5 +52,24 @@ tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")
         jvmTarget = "11"
+    }
+}
+
+tasks {
+    named<Jar>("jar") {
+        archiveBaseName.set("dbse")
+        manifest {
+            attributes(mapOf("Main-Class" to application.mainClassName))
+        }
+    }
+}
+
+tasks {
+    named<ShadowJar>("shadowJar") {
+        archiveBaseName.set("dbse")
+        mergeServiceFiles()
+        manifest {
+            attributes(mapOf("Main-Class" to application.mainClassName))
+        }
     }
 }

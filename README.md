@@ -69,3 +69,21 @@ role will be created. This role is what gives users access to the private channe
 to the channel options displayed by `!showchanneloptions`.
 
 Feel free to organize the locations of the channels on the Discord sidebar to your liking once they are created!
+
+# Running the Application
+The easiest ways to run this application are as follows:
+1. Using Gradle on the command line
+2. Using Intellij IDEA
+
+### Executing with Gradle CLI
+1. Navigate to the root folder of this project
+2. Enter the command `gradle assemble`, this generates a jar file in build/libs
+3. Use `java -jar <path/to/jar/file.jar>` to execute the jar
+
+### Executing with Intellij IDEA
+1. Open Intellij IDEA
+2. Choose the open or import project option
+3. Navigate to this project and select build.gradle.kts
+4. Select "Open as Project"
+5. Once Intellij is finished building and indexing, open src/main/kotlin/com.wink.dbse
+6. Right click DBSEApplication.kt and select "Run DBSEApplication"

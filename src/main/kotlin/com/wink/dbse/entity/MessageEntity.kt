@@ -3,10 +3,9 @@ package com.wink.dbse.entity
 import javax.persistence.*
 
 @Entity
-@Table(name="testmessage")
+@Table(name="message")
 class MessageEntity(
-        @Id @GeneratedValue(strategy = GenerationType.IDENTITY) val id: Long = 0,
-        val messageId: Long = 0,
+        @Id val messageId: Long = 0,
         val authorId: Long = 0,
         val channelId: Long = 0,
         val timeSentSecs: Long = 0,

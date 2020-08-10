@@ -46,11 +46,6 @@
       "description": "Id of emote used as a confirmation reaction."
     },
     {
-      "name": "bot.role.id.muted",
-      "type": "java.lang.String",
-      "description": "Id of role for muted users."
-    },
-    {
       "name": "bot.role.id.globalAccess",
       "type": "java.lang.String",
       "description": "List of Ids of roles that should have access to every generated private channel."

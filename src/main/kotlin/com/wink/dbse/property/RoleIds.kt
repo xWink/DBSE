@@ -7,6 +7,5 @@ import org.springframework.context.annotation.Configuration
 @ConfigurationProperties("bot.role.id")
 class RoleIds(
         var globalAccess: Array<String>? = null,
-        var muted: String? = null,
         var notify: String? = null
 )

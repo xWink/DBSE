@@ -6,8 +6,8 @@ import com.wink.dbse.property.RoleIds
 import com.wink.dbse.service.impl.ChannelNameConvertingService
 import com.wink.dbse.service.impl.PrivateChannelCreationService
 import net.dv8tion.jda.api.entities.Role
-import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent
-import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent
+import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -22,7 +22,7 @@ final class ChannelOptionsReactionListener @Autowired constructor(
 ) : ListenerAdapter() {
 
 
-    override fun onMessageReactionAdd(event: MessageReactionAddEvent) {
+    override fun onGuildMessageReactionAdd(event: GuildMessageReactionAddEvent) {
         if (event.channel.id != channelIds.channelOptions || event.reactionEmote.id != emoteIds.confirm) {
             return
         }
@@ -45,12 +45,12 @@ final class ChannelOptionsReactionListener @Autowired constructor(
         }
 
         // If the user is not a bot, give them the role
-        if (event.user?.isBot == false) {
+        if (!event.user.isBot) {
             guild.addRoleToMember(event.userIdLong, role).queue()
         }
     }
 
-    override fun onMessageReactionRemove(event: MessageReactionRemoveEvent) {
+    override fun onGuildMessageReactionRemove(event: GuildMessageReactionRemoveEvent) {
         if (event.channel.id != channelIds.channelOptions || event.reactionEmote.id != emoteIds.confirm) {
             return
         }
@@ -59,6 +59,6 @@ final class ChannelOptionsReactionListener @Autowired constructor(
         val content: String = event.channel.retrieveMessageById(event.messageIdLong).complete().contentRaw
         val role: Role = guild.getRolesByName(content, true).getOrNull(0) ?: return
 
-        guild.removeRoleFromMember(event.member ?: return, role).queue()
+        guild.removeRoleFromMember(event.userIdLong, role).queue()
     }
 }

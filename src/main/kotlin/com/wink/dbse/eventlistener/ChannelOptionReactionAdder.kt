@@ -3,7 +3,7 @@ package com.wink.dbse.eventlistener
 import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.property.EmoteIds
 import net.dv8tion.jda.api.entities.Emote
-import net.dv8tion.jda.api.events.message.MessageReceivedEvent
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -14,7 +14,7 @@ final class ChannelOptionReactionAdder @Autowired constructor(
         private val emoteIds: EmoteIds
 ) : ListenerAdapter() {
 
-    override fun onMessageReceived(event: MessageReceivedEvent) {
+    override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) {
         if (event.channel.id != channelIds.channelOptions || !event.author.isBot) {
             return
         }

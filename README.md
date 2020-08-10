@@ -16,15 +16,15 @@ to the corresponding private channel; removing the react removes access
 reaction to accept your terms of service
 
 ### Admin Commands:
-  1. `!echo <content>` - deletes the caller's message and repeats the content requested, including attachments
-  2. `!purge <number>` - deletes the caller's message + the given number of prior messages in the channel (max 99)
-  3. `!showchanneloptions` - prints contents of channelOptions.txt in the channelOptions channel (each line is a message)
+  1. `echo <content>` - deletes the caller's message and repeats the content requested, including attachments
+  2. `purge <number>` - deletes the caller's message + the given number of prior messages in the channel (max 99)
+  3. `showchanneloptions` - prints contents of channelOptions.txt in the channelOptions channel (each line is a message)
   
 ### General Commands:
-  1. `!flip` - flips a coin, displays an image and text of the side the coin landed on
-  2. `!id <number>` - shows the name of the user with the corresponding id number
-  3. `!info <course id>` - provides detailed information about the UoGuelph course with the corresponding id
-  4. `!ping` - shows the latency between client and Discord servers in ms
+  1. `flip` - flips a coin, displays an image and text of the side the coin landed on
+  2. `id <number>` - shows the name of the user with the corresponding id number
+  3. `info <course id>` - provides detailed information about the UoGuelph course with the corresponding id
+  4. `ping` - shows the latency between client and Discord servers in ms
 
 # Forking
 In order to use this bot, you must create an `application.properties` file in src/main/resources.
@@ -97,12 +97,12 @@ to see all of the previously hidden channels.
 
 # Running the Application
 The easiest ways to run this application are as follows:
-1. Using Gradle on the command line
-2. Using Intellij IDEA
+* Using Gradle on the command line
+* Using Intellij IDEA
 
 ### Executing with Gradle CLI
 1. Navigate to the root folder of this project
-2. Enter the command `gradle assemble`, this generates a jar file in build/libs
+2. On terminal, enter the command `gradle assemble` to generate a jar file in build/libs
 3. Use `java -jar <path/to/jar/file.jar>` to execute the jar
 
 ### Executing with Intellij IDEA

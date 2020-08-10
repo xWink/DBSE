@@ -77,7 +77,7 @@ The easiest ways to run this application are as follows:
 
 ### Executing with Gradle CLI
 1. Navigate to the root folder of this project
-2. Enter the command `gradle assemble`, this generates a jar file in build/libs
+2. On terminal, enter the command `gradle assemble` to generate a jar file in build/libs
 3. Use `java -jar <path/to/jar/file.jar>` to execute the jar
 
 ### Executing with Intellij IDEA

@@ -22,7 +22,7 @@ class WelcomeMessageReactionListener(
         }
 
         val member: Member = event.member
-        val tosRole: Role = event.guild.getRoleById(roleIds.acceptedToS ?: return) ?: return
+        val tosRole: Role = event.guild.getRoleById(roleIds.welcome ?: return) ?: return
 
         if (!member.roles.contains(tosRole)) {
             event.guild.addRoleToMember(member, tosRole).queue()

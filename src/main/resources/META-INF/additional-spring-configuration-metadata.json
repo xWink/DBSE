@@ -56,7 +56,7 @@
       "description": "Id of role for users that want notifications."
     },
     {
-      "name": "bot.role.id.acceptedToS",
+      "name": "bot.role.id.welcome",
       "type": "java.lang.String",
       "description": "Id of role for users that accepted the server terms of service."
     }

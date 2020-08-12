@@ -12,7 +12,7 @@ plugins {
 }
 
 group = "com.wink"
-version = "0.8"
+version = "0.9"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {

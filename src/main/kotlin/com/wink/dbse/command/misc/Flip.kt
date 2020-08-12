@@ -3,6 +3,8 @@ package com.wink.dbse.command.misc
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.wink.dbse.service.IMessenger
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
@@ -30,7 +32,13 @@ class Flip @Autowired constructor(private val messenger: IMessenger) : Command()
         if (resource == null) {
             messenger.sendMessage(event.channel, message)
         } else {
-            messenger.sendMessage(event.channel, message, resource.file.readBytes(), "coin.png")
+            messenger.sendMessage(event.channel, message, resource.inputStream.readBytes(), "coin.png")
         }
+        logger.info("Successfully executed flip command by user \"${event.author.name}\" " +
+                "with result \"$message\" in channel \"${event.channel.name}\"")
+    }
+
+    private companion object {
+        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(Flip::class.java)
     }
 }

@@ -8,6 +8,8 @@ import com.wink.dbse.service.IMessenger
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.message.MessageBulkDeleteEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.lang.StringBuilder
@@ -20,12 +22,21 @@ class MessageBulkDeleteLogger @Autowired constructor(
         private val channels: ChannelIds
 ) : ListenerAdapter() {
 
-    companion object {
-        private const val MAX_MESSAGE_LENGTH = 2000
-    }
-
     override fun onMessageBulkDelete(event: MessageBulkDeleteEvent) {
-        val bulkDeletedMessagesChannel: TextChannel = getBulkDeletedMessagesChannel(event) ?: return
+        val bulkDeleteMessagesChannelId: String? = channels.bulkDeletedMessages
+        if (bulkDeleteMessagesChannelId == null) {
+            logger.warn("BulkDeletedMessages channel id is null. Removing ${this.javaClass.name} from event listeners.")
+            event.jda.removeEventListener(this)
+            return
+        }
+
+        val bulkDeletedMessagesChannel: TextChannel? = event.guild.getTextChannelById(bulkDeleteMessagesChannelId)
+        if (bulkDeletedMessagesChannel == null) {
+            logger.warn("No such channel with bulkDeletedMessages id. Removing ${this.javaClass.name} from event listeners.")
+            event.jda.removeEventListener(this)
+            return
+        }
+
         val title = "**__BULK DELETE__**\n"
         val sb = StringBuilder(title)
         val deletedMessages: List<MessageEntity> = repository.findByMessageIdIn(event.messageIds.map { it.toLong() })
@@ -48,19 +59,17 @@ class MessageBulkDeleteLogger @Autowired constructor(
             }
             sb.append(formattedMessage + "\n")
         }
+
         if (sb.length > title.length) {
             messenger.sendMessage(bulkDeletedMessagesChannel, sb.toString())
+            logger.info("Successfully logged a bulk deletion of ${deletedMessages.size} messages " +
+                    "in channel \"${event.channel.name}\"")
         }
     }
 
-    private fun getBulkDeletedMessagesChannel(event: MessageBulkDeleteEvent): TextChannel? {
-        return try {
-            // Try to find channel with name according to properties
-            event.guild.getTextChannelById(channels.bulkDeletedMessages ?: throw Exception())
-        } catch(e: Exception) {
-            // If no such channel exists, stop trying to log this event
-            event.jda.removeEventListener(this)
-            null
-        }
+    private companion object {
+        private const val MAX_MESSAGE_LENGTH = 2000
+
+        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(MessageBulkDeleteLogger::class.java)
     }
 }

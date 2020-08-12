@@ -5,6 +5,8 @@ import com.wink.dbse.property.EmoteIds
 import net.dv8tion.jda.api.entities.Emote
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -19,9 +21,28 @@ final class ChannelOptionReactionAdder @Autowired constructor(
             return
         }
 
-        val confirmEmote: Emote = event.jda.getEmoteById(emoteIds.confirm!!) ?: return
-        if (!event.message.contentRaw.startsWith("-")) {
-            event.message.addReaction(confirmEmote).queue()
+        val emoteId: String? = emoteIds.confirm
+        if (emoteId == null) {
+            logger.warn("Confirm emote id is null. Removing ${this.javaClass.name} from event listeners.")
+            event.jda.removeEventListener(this)
+            return
         }
+
+        val confirmEmote: Emote? = event.jda.getEmoteById(emoteId)
+        if (confirmEmote == null) {
+            logger.warn("No such emote with confirm id. Removing ${this.javaClass.name} from event listeners.")
+            event.jda.removeEventListener(this)
+            return
+        }
+
+        if (!event.message.contentRaw.startsWith("-")) {
+            event.message.addReaction(confirmEmote).queue() {
+                logger.info("Successfully added confirm emote to message in channelOptions channel")
+            }
+        }
+    }
+
+    private companion object {
+        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(ChannelOptionReactionAdder::class.java)
     }
 }

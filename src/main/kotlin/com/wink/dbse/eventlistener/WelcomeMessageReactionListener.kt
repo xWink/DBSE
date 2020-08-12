@@ -7,6 +7,8 @@ import net.dv8tion.jda.api.entities.Member
 import net.dv8tion.jda.api.entities.Role
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
@@ -22,10 +24,28 @@ class WelcomeMessageReactionListener(
         }
 
         val member: Member = event.member
-        val tosRole: Role = event.guild.getRoleById(roleIds.welcome ?: return) ?: return
+
+        val welcomeRoleId: String? = roleIds.welcome
+        if (welcomeRoleId == null) {
+            logger.warn("Welcome role id is null. Removing ${this.javaClass.name} from event listeners.")
+            event.jda.removeEventListener(this)
+            return
+        }
+
+        val tosRole: Role? = event.guild.getRoleById(welcomeRoleId)
+        if (tosRole == null) {
+            logger.warn("No such role with welcome id. Removing ${this.javaClass.name} from event listeners.")
+            event.jda.removeEventListener(this)
+            return
+        }
 
         if (!member.roles.contains(tosRole)) {
             event.guild.addRoleToMember(member, tosRole).queue()
+            logger.info("Successfully added welcome role to user ${member.effectiveName}")
         }
+    }
+
+    private companion object {
+        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(WelcomeMessageReactionListener::class.java)
     }
 }

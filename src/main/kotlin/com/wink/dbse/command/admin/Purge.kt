@@ -2,7 +2,10 @@ package com.wink.dbse.command.admin
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
+import com.wink.dbse.eventlistener.ChannelOptionReactionAdder
 import net.dv8tion.jda.api.Permission
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
 
 @Component
@@ -20,6 +23,12 @@ class Purge : Command() {
             val channel = event.channel
             val numMessages = event.args.toInt() + 1
             channel.history.retrievePast(numMessages).queue { channel.purgeMessages(it) }
+            logger.info("Successfully executed purge command by user \"${event.author.name}\" " +
+                    "on ${numMessages - 1} messages in channel \"${channel.name}\"")
         } catch (ignored: NumberFormatException) {}
+    }
+
+    private companion object {
+        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(Purge::class.java)
     }
 }

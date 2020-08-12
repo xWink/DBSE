@@ -5,6 +5,8 @@ import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.wink.dbse.service.IMessenger
 import net.dv8tion.jda.api.EmbedBuilder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
@@ -26,8 +28,14 @@ class Info @Autowired constructor(
     }
 
     override fun execute(event: CommandEvent) {
+        if (courses == null) {
+            logger.warn("Courses resource is missing. Removing ${this.javaClass.name} from event listeners.")
+            event.jda.removeEventListener(this)
+            return
+        }
+
         val courseId = event.args.toUpperCase().replace("\\*|\\s+".toRegex(), "")
-        val found = tsvReader.open(courses?.file ?: return) {
+        val found = tsvReader.open(courses.inputStream) {
             readAllWithHeaderAsSequence().find {
                 courseId == it["Course Title"]
                         ?.split("\\s+".toRegex())
@@ -41,6 +49,8 @@ class Info @Autowired constructor(
         } else {
             messenger.sendMessage(event.channel, embedCourseData(found).build())
         }
+        logger.info("Successfully executed info command by user \"${event.author.name}\" " +
+                "for course \"$courseId\" in channel \"${event.channel.name}\"")
     }
 
     private fun embedCourseData(data: Map<String, String>): EmbedBuilder {
@@ -59,5 +69,9 @@ class Info @Autowired constructor(
 
         eb.addField("Description: ", data["Descriptions"], false)
         return eb
+    }
+
+    private companion object {
+        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(Info::class.java)
     }
 }

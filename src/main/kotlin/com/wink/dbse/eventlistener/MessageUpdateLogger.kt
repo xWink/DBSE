@@ -7,8 +7,11 @@ import com.wink.dbse.service.ILoggedMessageFormatter
 import com.wink.dbse.service.IMessenger
 import com.wink.dbse.service.impl.MessageConvertingService
 import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
@@ -23,31 +26,32 @@ class MessageUpdateLogger @Autowired constructor(
 
     override fun onMessageUpdate(event: MessageUpdateEvent) {
         val editedMessage: MessageEntity = converter.convert(event)
-        logOriginalMessage(event, editedMessage)
-        repository.updateByMessageId(editedMessage.messageId, editedMessage.timeSentSecs, editedMessage.content)
-    }
+        val editedMessagesChannelId: String? = channels.editedMessages
+        if (editedMessagesChannelId == null) {
+            logger.warn("EditedMessages channel id is null. Removing ${this.javaClass.name} from event listeners.")
+            event.jda.removeEventListener(this)
+            return
+        }
 
-    private fun logOriginalMessage(event: MessageUpdateEvent, editedMessage: MessageEntity) {
-        val editedMessagesChannel: TextChannel = getUpdatedMessagesChannel(event) ?: return
+        val editedMessagesChannel: TextChannel? = event.guild.getTextChannelById(editedMessagesChannelId)
+        if (editedMessagesChannel == null) {
+            logger.warn("No such channel with editedMessages id. Removing ${this.javaClass.name} from event listeners.")
+            event.jda.removeEventListener(this)
+            return
+        }
+
         val originalMessage: MessageEntity = repository.findFirstByMessageId(editedMessage.messageId) ?: return
-
         val originalContent: String = originalMessage.content + "\n" + originalMessage.attachment
         val channel: String? = event.guild.getTextChannelById(originalMessage.channelId)?.name
+        val user: User = event.jda.getUserById(originalMessage.authorId) ?: return
+        val message: String = formatter.format(originalMessage.timeSentSecs, channel, user.name, originalContent)
 
-        event.jda.retrieveUserById(originalMessage.authorId).queue() {
-            val message: String = formatter.format(originalMessage.timeSentSecs, channel, it.name, originalContent)
-            messenger.sendMessage(editedMessagesChannel, message)
-        }
+        messenger.sendMessage(editedMessagesChannel, message)
+        repository.updateByMessageId(editedMessage.messageId, editedMessage.timeSentSecs, editedMessage.content)
+        logger.info("Successfully logged an edited message by user \"${user.name}\" in channel \"$channel\"")
     }
 
-    private fun getUpdatedMessagesChannel(event: MessageUpdateEvent): TextChannel? {
-        return try {
-            // Try to find channel with name according to properties
-            event.guild.getTextChannelById(channels.editedMessages ?: throw Exception())
-        } catch(e: Exception) {
-            // If no such channel exists, stop trying to log this event
-            event.jda.removeEventListener(this)
-            null
-        }
+    private companion object {
+        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(MessageUpdateLogger::class.java)
     }
 }

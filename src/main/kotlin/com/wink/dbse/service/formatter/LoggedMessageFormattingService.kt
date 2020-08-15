@@ -1,4 +1,4 @@
-package com.wink.dbse.service.impl
+package com.wink.dbse.service.formatter
 
 import com.wink.dbse.service.ILoggedMessageFormatter
 import org.springframework.stereotype.Service

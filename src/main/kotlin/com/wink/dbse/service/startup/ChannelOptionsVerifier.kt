@@ -20,16 +20,12 @@ class ChannelOptionsVerifier @Autowired constructor(
     /**
      * Removes ChannelOptions-related event listeners if their required emotes and channels are not set.
      */
-    override fun accept(jda: JDA) {
+    override fun accept(jda: JDA) { // TODO: MAKE PARENT CLASS THAT DOES THIS FOR ALL THE VERIFIERS
         if (emoteIds.confirm == null || channelIds.channelOptions == null) {
-            jda.eventManager.registeredListeners.forEach {
-                if (it.javaClass == ChannelOptionReactionAdder::class.java
-                        || it.javaClass == ChannelOptionsRoleManager::class.java) {
-
-                    jda.removeEventListener(it)
-                    logger.warn("${it::class.simpleName} failed verification and was removed")
-                }
-            }
+            val toRemove = listOf(ChannelOptionReactionAdder::class.java, ChannelOptionsRoleManager::class.java)
+            val found = jda.eventManager.registeredListeners.find { it::class.java in toRemove }
+            jda.removeEventListener(found)
+            toRemove.forEach { logger.warn("$it failed verification and was removed") }
         }
         logger.info("Verified ChannelOptions")
     }

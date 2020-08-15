@@ -5,7 +5,7 @@ import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.repository.MessageRepository
 import com.wink.dbse.service.ILoggedMessageFormatter
 import com.wink.dbse.service.IMessenger
-import com.wink.dbse.service.impl.MessageConvertingService
+import com.wink.dbse.service.converter.MessageConvertingService
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent

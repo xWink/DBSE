@@ -1,4 +1,4 @@
-package com.wink.dbse.service.impl
+package com.wink.dbse.service.misc
 
 import com.wink.dbse.property.RoleIds
 import net.dv8tion.jda.api.Permission

@@ -1,4 +1,4 @@
-package com.wink.dbse.service.impl
+package com.wink.dbse.service.converter
 
 import com.wink.dbse.entity.MessageEntity
 import com.wink.dbse.extension.attachmentProxy

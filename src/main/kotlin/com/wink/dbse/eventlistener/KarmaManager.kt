@@ -18,12 +18,6 @@ class KarmaManager @Autowired constructor(
 ) : ListenerAdapter() {
 
     override fun onGuildMessageReactionAdd(event: GuildMessageReactionAddEvent) {
-        if (emoteIds.upVote == null || emoteIds.downVote == null) {
-            event.jda.removeEventListener(this)
-            logger.warn("Missing upvote or downvote emote. Removing ${this.javaClass.name} from event listeners.")
-            return
-        }
-
         val emoteId: String = event.reactionEmote.id
         if (emoteId != emoteIds.upVote && emoteId != emoteIds.downVote) {
             return

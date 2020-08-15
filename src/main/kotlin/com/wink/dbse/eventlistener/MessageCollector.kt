@@ -2,7 +2,7 @@ package com.wink.dbse.eventlistener
 
 import com.jagrosh.jdautilities.command.CommandClient
 import com.wink.dbse.entity.MessageEntity
-import com.wink.dbse.service.impl.MessageConvertingService
+import com.wink.dbse.service.converter.MessageConvertingService
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.springframework.beans.factory.annotation.Autowired

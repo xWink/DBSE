@@ -1,4 +1,4 @@
-package com.wink.dbse.service.impl
+package com.wink.dbse.service.messenger
 
 import com.wink.dbse.service.IMessenger
 import net.dv8tion.jda.api.entities.MessageChannel

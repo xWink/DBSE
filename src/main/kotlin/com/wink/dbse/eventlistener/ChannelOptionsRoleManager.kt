@@ -3,8 +3,8 @@ package com.wink.dbse.eventlistener
 import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.property.EmoteIds
 import com.wink.dbse.property.RoleIds
-import com.wink.dbse.service.impl.ChannelNameConvertingService
-import com.wink.dbse.service.impl.PrivateChannelCreationService
+import com.wink.dbse.service.converter.ChannelNameConvertingService
+import com.wink.dbse.service.misc.PrivateChannelCreationService
 import net.dv8tion.jda.api.entities.Role
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent

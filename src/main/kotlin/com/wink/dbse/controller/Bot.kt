@@ -13,6 +13,7 @@ class Bot @Autowired constructor(
 
     //TODO: MOVE ALL CHECKS TO REMOVE LISTENERS HERE
     init {
+        api.awaitReady()
         for (service in startupServices) {
             service.accept(api)
         }

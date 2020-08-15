@@ -1,4 +1,4 @@
-package com.wink.dbse.service.impl
+package com.wink.dbse.service.startup
 
 import com.wink.dbse.entity.UserEntity
 import com.wink.dbse.repository.UserRepository
@@ -14,7 +14,6 @@ class MemberSavingService @Autowired constructor(private val repository: UserRep
      * Saves all cached members as users in the database.
      */
     override fun accept(jda: JDA) {
-        jda.awaitReady().users
-                .forEach { if (repository.findById(it.idLong).isEmpty) repository.save(UserEntity(it.idLong)) }
+        jda.users.forEach { if (repository.findById(it.idLong).isEmpty) repository.save(UserEntity(it.idLong)) }
     }
 }

@@ -21,14 +21,8 @@ final class ChannelOptionReactionAdder @Autowired constructor(
             return
         }
 
-        val emoteId: String? = emoteIds.confirm
-        if (emoteId == null) {
-            logger.warn("Confirm emote id is null. Removing ${this.javaClass.name} from event listeners.")
-            event.jda.removeEventListener(this)
-            return
-        }
-
-        val confirmEmote: Emote? = event.jda.getEmoteById(emoteId)
+        val emoteId: String = emoteIds.confirm!!
+        val confirmEmote: Emote? = event.guild.getEmoteById(emoteId)
         if (confirmEmote == null) {
             logger.warn("No such emote with confirm id. Removing ${this.javaClass.name} from event listeners.")
             event.jda.removeEventListener(this)

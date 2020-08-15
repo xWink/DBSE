@@ -3,7 +3,7 @@ package com.wink.dbse.entity
 import javax.persistence.*
 
 @Entity
-@Table(name="message")
+@Table(name = "message")
 class MessageEntity(
         @Id val messageId: Long = 0,
         val authorId: Long = 0,

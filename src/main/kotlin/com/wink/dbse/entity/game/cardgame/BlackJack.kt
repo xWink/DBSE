@@ -1,9 +1,5 @@
-package com.wink.dbse.entity.game.cardgame.game
+package com.wink.dbse.entity.game.cardgame
 
-import com.wink.dbse.entity.game.cardgame.CardGame
-import com.wink.dbse.entity.game.cardgame.CardGameCpuPlayer
-import com.wink.dbse.entity.game.cardgame.CardGameUserPlayer
-import com.wink.dbse.entity.game.cardgame.ICardGamePlayer
 import com.wink.dbse.entity.game.cardgame.card.CardRank
 import com.wink.dbse.entity.game.cardgame.card.Deck
 import com.wink.dbse.entity.game.cardgame.card.Hand

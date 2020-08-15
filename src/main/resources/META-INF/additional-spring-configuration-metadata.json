@@ -46,6 +46,16 @@
       "description": "Id of emote used as a confirmation reaction."
     },
     {
+      "name": "bot.emote.id.upVote",
+      "type": "java.lang.String",
+      "description": "Description for bot.emote.id.upVote."
+    },
+    {
+      "name": "bot.emote.id.downVote",
+      "type": "java.lang.String",
+      "description": "Description for bot.emote.id.downVote."
+    },
+    {
       "name": "bot.role.id.globalAccess",
       "type": "java.lang.String",
       "description": "List of Ids of roles that should have access to every generated private channel."

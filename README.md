@@ -14,6 +14,7 @@ new channel/role named after the message
 to the corresponding private channel; removing the react removes access
 * Terms of Service Agreement Forms - don't let newcomers see any channel except the ones you want until they click a
 reaction to accept your terms of service
+* Karma System - upvote and downvote each other's messages and track your karma rating
 
 ### Admin Commands:
   1. `echo <content>` - deletes the caller's message and repeats the content requested, including attachments
@@ -61,13 +62,20 @@ spring.jpa.show-sql = true
 ```
 
 ### Database
-If you are using your own database, ensure that you have a table called "message" with the following columns:
+If you are using your own database, ensure that you have 2 tables: "message" and "user" with the following columns:
+
+##### message
 1. message_id - BigInt (PRIMARY KEY)
 2. author_id - BigInt
 3. channel_id - BigInt
 4. time_sent_secs - BigInt
 5. content - VarChar
 6. attachment - VarChar
+
+##### user
+1. user_id - BigInt (PRIMARY KEY)
+2. up_votes - BigInt
+3. down_votes - BigInt
 
 ###### Note: if the database disconnects, all components that do not depend on it will still function
 

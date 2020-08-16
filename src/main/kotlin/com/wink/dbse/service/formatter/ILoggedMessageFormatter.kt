@@ -1,4 +1,4 @@
-package com.wink.dbse.service
+package com.wink.dbse.service.formatter
 
 interface ILoggedMessageFormatter {
 

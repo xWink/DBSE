@@ -1,6 +1,5 @@
 package com.wink.dbse.service.messenger
 
-import com.wink.dbse.service.IMessenger
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.entities.MessageEmbed
 import net.dv8tion.jda.api.utils.AttachmentOption

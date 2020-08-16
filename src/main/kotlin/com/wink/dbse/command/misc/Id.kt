@@ -3,7 +3,7 @@ package com.wink.dbse.command.misc
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.wink.dbse.property.BotProperties
-import com.wink.dbse.service.IMessenger
+import com.wink.dbse.service.messenger.IMessenger
 import net.dv8tion.jda.api.entities.MessageChannel
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

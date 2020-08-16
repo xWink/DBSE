@@ -3,8 +3,8 @@ package com.wink.dbse.eventlistener
 import com.wink.dbse.entity.MessageEntity
 import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.repository.MessageRepository
-import com.wink.dbse.service.ILoggedMessageFormatter
-import com.wink.dbse.service.IMessenger
+import com.wink.dbse.service.formatter.ILoggedMessageFormatter
+import com.wink.dbse.service.messenger.IMessenger
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter

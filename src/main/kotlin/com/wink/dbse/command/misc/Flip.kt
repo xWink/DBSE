@@ -2,7 +2,7 @@ package com.wink.dbse.command.misc
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
-import com.wink.dbse.service.IMessenger
+import com.wink.dbse.service.messenger.IMessenger
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired

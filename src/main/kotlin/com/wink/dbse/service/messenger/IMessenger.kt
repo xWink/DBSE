@@ -1,4 +1,4 @@
-package com.wink.dbse.service
+package com.wink.dbse.service.messenger
 
 import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.entities.MessageEmbed

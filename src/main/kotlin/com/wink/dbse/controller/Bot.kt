@@ -1,6 +1,6 @@
 package com.wink.dbse.controller
 
-import com.wink.dbse.service.IStartupService
+import com.wink.dbse.service.startup.IStartupService
 import net.dv8tion.jda.api.JDA
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller

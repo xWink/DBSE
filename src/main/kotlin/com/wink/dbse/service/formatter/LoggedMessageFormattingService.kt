@@ -1,6 +1,5 @@
 package com.wink.dbse.service.formatter
 
-import com.wink.dbse.service.ILoggedMessageFormatter
 import org.springframework.stereotype.Service
 import java.time.Instant
 import java.time.ZoneId

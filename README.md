@@ -1,6 +1,6 @@
 # DBSE (Discord Bot Spring Edition)
 A remastered version of the University of Guelph Bachelor of Computing Discord Bot using Kotlin, Spring Boot, and Java
-Discord API.
+Discord API. Currently hosted on Google Cloud Platform and designed for use with MariaDB.
 
 # Functionality
 * Message backups - every message that is not made by a bot and does not trigger a bot command is stored with MariaDB

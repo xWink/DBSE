@@ -23,22 +23,14 @@ class WelcomeMessageReactionListener(
             return
         }
 
-        val member: Member = event.member
-
-        val welcomeRoleId: String? = roleIds.welcome
-        if (welcomeRoleId == null) {
-            logger.warn("Welcome role id is null. Removing ${this.javaClass.name} from event listeners.")
-            event.jda.removeEventListener(this)
-            return
-        }
-
-        val tosRole: Role? = event.guild.getRoleById(welcomeRoleId)
+        val tosRole: Role? = event.guild.getRoleById(roleIds.welcome!!)
         if (tosRole == null) {
             logger.warn("No such role with welcome id. Removing ${this.javaClass.name} from event listeners.")
             event.jda.removeEventListener(this)
             return
         }
 
+        val member: Member = event.member
         if (!member.roles.contains(tosRole)) {
             event.guild.addRoleToMember(member, tosRole).queue()
             logger.info("Successfully added welcome role to user ${member.effectiveName}")

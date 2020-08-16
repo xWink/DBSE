@@ -26,14 +26,7 @@ class MessageUpdateLogger @Autowired constructor(
 
     override fun onMessageUpdate(event: MessageUpdateEvent) {
         val editedMessage: MessageEntity = converter.convert(event)
-        val editedMessagesChannelId: String? = channels.editedMessages
-        if (editedMessagesChannelId == null) {
-            logger.warn("EditedMessages channel id is null. Removing ${this.javaClass.name} from event listeners.")
-            event.jda.removeEventListener(this)
-            return
-        }
-
-        val editedMessagesChannel: TextChannel? = event.guild.getTextChannelById(editedMessagesChannelId)
+        val editedMessagesChannel: TextChannel? = event.guild.getTextChannelById(channels.editedMessages!!)
         if (editedMessagesChannel == null) {
             logger.warn("No such channel with editedMessages id. Removing ${this.javaClass.name} from event listeners.")
             event.jda.removeEventListener(this)

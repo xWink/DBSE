@@ -23,14 +23,8 @@ class MessageDeleteLogger @Autowired constructor(
 
     override fun onMessageDelete(event: MessageDeleteEvent) {
         val guild = event.guild
-        val deleteMessagesChannelId: String? = channels.deletedMessages
-        if (deleteMessagesChannelId == null) {
-            logger.warn("DeletedMessages channel id is null. Removing ${this.javaClass.name} from event listeners.")
-            event.jda.removeEventListener(this)
-            return
-        }
 
-        val deletedMessagesChannel: TextChannel? = event.guild.getTextChannelById(deleteMessagesChannelId)
+        val deletedMessagesChannel: TextChannel? = event.guild.getTextChannelById(channels.deletedMessages!!)
         if (deletedMessagesChannel == null) {
             logger.warn("No such channel with deleteMessages id. Removing ${this.javaClass.name} from event listeners.")
             event.jda.removeEventListener(this)

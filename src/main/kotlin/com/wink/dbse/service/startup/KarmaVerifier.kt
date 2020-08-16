@@ -11,23 +11,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class KarmaVerifier @Autowired constructor(
-    private val emoteIds: EmoteIds
-) : IStartupService {
-
-    /**
-     * Removes Karma-related event listeners if their required emotes are not set.
-     */
-    override fun accept(jda: JDA) {
-        if (emoteIds.upVote == null || emoteIds.downVote == null) {
-            val toRemove = KarmaManager::class.java
-            val listener = jda.eventManager.registeredListeners.find { it::class.java == toRemove }
-            jda.removeEventListener(listener)
-            logger.warn("${toRemove.name} failed verification and was removed")
-        }
-        logger.info("Verified Karma")
-    }
-
-    private companion object {
-        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(KarmaVerifier::class.java)
-    }
-}
+    emoteIds: EmoteIds
+) : ComponentDependencyVerifier(
+        listOf(emoteIds.upVote, emoteIds.downVote),
+        listOf(KarmaManager::class.java)
+)

@@ -23,14 +23,7 @@ class MessageBulkDeleteLogger @Autowired constructor(
 ) : ListenerAdapter() {
 
     override fun onMessageBulkDelete(event: MessageBulkDeleteEvent) {
-        val bulkDeleteMessagesChannelId: String? = channels.bulkDeletedMessages
-        if (bulkDeleteMessagesChannelId == null) {
-            logger.warn("BulkDeletedMessages channel id is null. Removing ${this.javaClass.name} from event listeners.")
-            event.jda.removeEventListener(this)
-            return
-        }
-
-        val bulkDeletedMessagesChannel: TextChannel? = event.guild.getTextChannelById(bulkDeleteMessagesChannelId)
+        val bulkDeletedMessagesChannel: TextChannel? = event.guild.getTextChannelById(channels.bulkDeletedMessages!!)
         if (bulkDeletedMessagesChannel == null) {
             logger.warn("No such channel with bulkDeletedMessages id. Removing ${this.javaClass.name} from event listeners.")
             event.jda.removeEventListener(this)

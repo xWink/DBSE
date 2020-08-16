@@ -31,7 +31,8 @@ In order to use this bot, you must create an `application.properties` file in sr
 Below is the full list of properties to use, and further down is an explanation of each property and its purpose.
 If you delete a line, functionality that depends on that property will stop.
 
-##### The properties at the top level of `bot` and all spring properties are mandatory.
+##### All properties under `spring` and those at the top level of `bot` are mandatory.
+##### Comment out any property line you do not fill. This will turn off any functionality using that property.
 
 ```
 bot.token = <bot token>
@@ -43,6 +44,8 @@ bot.channel.id.deletedMessages = <id of channel where deleted messages are logge
 bot.channel.id.editedMessages = <id of channel where edited messages are logged>
 bot.channel.id.channelOptions = <id of channel where opt-in channel options are displayed>
 bot.emote.id.confirm = <id of emote used for confirmation (like a checkmark)>
+bot.emote.id.upVote = <id of emote used to signify an upvote>
+bot.emote.id.downVote = <id of emote used to signify a downvote>
 bot.role.id.globalAccess = <comma-separated list of id's of roles that can see all generated channels>
 bot.role.id.notify = <id of role identifying members who want to receive notifications>
 bot.role.id.welcome = <id of role given to members who accepted the terms of service in the welcome channel>

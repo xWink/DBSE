@@ -4,9 +4,11 @@ import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.wink.dbse.entity.economy.Marketplace
 import com.wink.dbse.service.Messenger
+import net.dv8tion.jda.api.EmbedBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.awt.Color
 
 @Component
 class Market(
@@ -20,7 +22,11 @@ class Market(
     }
 
     override fun execute(event: CommandEvent) {
-        messenger.sendMessage(event.channel, marketplace.toString())
+        val eb = EmbedBuilder()
+        eb.setTitle("Market")
+        eb.setColor(Color(38, 111, 232))
+        marketplace.listings.forEach { eb.addField("${it.name} (${it.durationDays} days)", it.cost.toString(), false) }
+        messenger.sendMessage(event.channel, eb.build())
         logger.info("Successfully executed market command by user \"${event.author.name}\"")
     }
 

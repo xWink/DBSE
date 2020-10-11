@@ -12,9 +12,4 @@ class Marketplace @Lazy constructor(marketProperties: MarketProperties) {
     init {
         marketProperties.listings?.forEach { listings.add(it) }
     }
-
-    override fun toString(): String {
-        var id = 1
-        return listings.joinToString("\n") { "${id++}. ${it.name}: ${it.cost} gc" }
-    }
 }

@@ -2,14 +2,13 @@ package com.wink.dbse.command.misc
 
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
-import com.wink.dbse.service.messenger.IMessenger
+import com.wink.dbse.service.Messenger
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class Ping @Autowired constructor(private val messenger: IMessenger) : Command() {
+class Ping(private val messenger: Messenger) : Command() {
 
     init {
         name = "ping"

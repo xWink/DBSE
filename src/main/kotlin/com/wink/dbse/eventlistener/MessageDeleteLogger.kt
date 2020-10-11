@@ -3,21 +3,20 @@ package com.wink.dbse.eventlistener
 import com.wink.dbse.entity.MessageEntity
 import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.repository.MessageRepository
-import com.wink.dbse.service.formatter.ILoggedMessageFormatter
-import com.wink.dbse.service.messenger.IMessenger
+import com.wink.dbse.service.LoggedMessageFormatter
+import com.wink.dbse.service.Messenger
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class MessageDeleteLogger @Autowired constructor(
+class MessageDeleteLogger(
         private val repository: MessageRepository,
-        private val formatter: ILoggedMessageFormatter,
-        private val messenger: IMessenger,
+        private val formatter: LoggedMessageFormatter,
+        private val messenger: Messenger,
         private val channels: ChannelIds
 ) : ListenerAdapter() {
 

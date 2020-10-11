@@ -15,6 +15,7 @@ to the corresponding private channel; removing the react removes access
 * Terms of Service Agreement Forms - don't let newcomers see any channel except the ones you want until they click a
 reaction to accept your terms of service
 * Karma System - upvote and downvote each other's messages and track your karma rating
+* Economy - create and view a marketplace with custom roles for sale, buy the roles with currency earned from games
 
 ### Admin Commands:
   1. `echo <content>` - deletes the caller's message and repeats the content requested, including attachments
@@ -36,20 +37,40 @@ If you delete a line, functionality that depends on that property will stop.
 ##### Comment out any property line you do not fill. This will turn off any functionality using that property.
 
 ```
+# Mandatory
 bot.token = <bot token>
 bot.ownerId = <your Discord user ID>
 bot.commandPrefix = <command prefix (eg. !)>
+
+# Channel id's
 bot.channel.id.welcome = <id of channel with welcome message and terms of service agreement>
 bot.channel.id.bulkDeletedMessages = <id of channel where purged messages are logged>
 bot.channel.id.deletedMessages = <id of channel where deleted messages are logged>
 bot.channel.id.editedMessages = <id of channel where edited messages are logged>
 bot.channel.id.channelOptions = <id of channel where opt-in channel options are displayed>
+
+# Emote id's
 bot.emote.id.confirm = <id of emote used for confirmation (like a checkmark)>
 bot.emote.id.upVote = <id of emote used to signify an upvote>
 bot.emote.id.downVote = <id of emote used to signify a downvote>
+
+# Role id's
 bot.role.id.globalAccess = <comma-separated list of id's of roles that can see all generated channels>
 bot.role.id.notify = <id of role identifying members who want to receive notifications>
 bot.role.id.welcome = <id of role given to members who accepted the terms of service in the welcome channel>
+
+# Market listings
+bot.market.listings[0].name = <name of role>
+bot.market.listings[0].cost = <price of role>
+bot.market.listings[0].roleId = <id of role on Discord>
+bot.market.listings[0].durationDays = <number of days the role lasts before expiry>
+
+bot.market.listings[1].name = Example
+bot.market.listings[1].cost = 35
+bot.market.listings[1].roleId = 584811465622552751
+bot.market.listings[1].durationDays = 7
+
+# Database configuration
 spring.datasource.url = jdbc:mariadb://<database server URL:port>/<database name>
 spring.datasource.username = <database username>
 spring.datasource.password = <database password>
@@ -76,6 +97,9 @@ If you are using your own database, ensure that you have 2 tables: "message" and
 1. user_id - BigInt (PRIMARY KEY)
 2. up_votes - BigInt
 3. down_votes - BigInt
+4. wallet - BigInt
+5. purchased_role_id - BigInt
+6. role_expiry - DateTime
 
 ###### Note: if the database disconnects, all components that do not depend on it will still function
 

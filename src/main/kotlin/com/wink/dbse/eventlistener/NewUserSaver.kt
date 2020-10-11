@@ -6,11 +6,10 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class NewUserSaver @Autowired constructor(private val repository: UserRepository) : ListenerAdapter() {
+class NewUserSaver(private val repository: UserRepository) : ListenerAdapter() {
 
     override fun onGuildMemberJoin(event: GuildMemberJoinEvent) {
         if (repository.findById(event.user.idLong).isEmpty) {

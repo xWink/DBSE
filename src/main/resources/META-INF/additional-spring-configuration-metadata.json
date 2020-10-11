@@ -69,6 +69,21 @@
       "name": "bot.role.id.welcome",
       "type": "java.lang.String",
       "description": "Id of role for users that accepted the server terms of service."
+    },
+    {
+      "name": "bot.market.listings[0].cost",
+      "type": "java.lang.String",
+      "description": "Cost of the role to buy from the market."
+    },
+    {
+      "name": "bot.market.listings[0].roleId",
+      "type": "java.lang.String",
+      "description": "Id of role that is assigned to user upon purchase."
+    },
+    {
+      "name": "bot.market.listings[0].name",
+      "type": "java.lang.String",
+      "description": "Name of role so that user knows what they are buying when seeing the market."
     }
   ]
 }

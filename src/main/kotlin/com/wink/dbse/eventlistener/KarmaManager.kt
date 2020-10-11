@@ -8,11 +8,10 @@ import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemove
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class KarmaManager @Autowired constructor(
+class KarmaManager(
         private val emoteIds: EmoteIds,
         private val repository: UserRepository
 ) : ListenerAdapter() {

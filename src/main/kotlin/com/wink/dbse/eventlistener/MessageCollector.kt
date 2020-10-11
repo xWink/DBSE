@@ -2,17 +2,16 @@ package com.wink.dbse.eventlistener
 
 import com.jagrosh.jdautilities.command.CommandClient
 import com.wink.dbse.entity.MessageEntity
-import com.wink.dbse.service.converter.MessageConvertingService
+import com.wink.dbse.service.MessageConvertingService
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import com.wink.dbse.repository.MessageRepository
 import javax.transaction.Transactional
 
 @Component
 @Transactional
-class MessageCollector @Autowired constructor(
+class MessageCollector(
         private val repository: MessageRepository,
         private val converter: MessageConvertingService,
         private val commandClient: CommandClient

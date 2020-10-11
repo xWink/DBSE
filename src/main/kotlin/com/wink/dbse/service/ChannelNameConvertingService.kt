@@ -1,4 +1,4 @@
-package com.wink.dbse.service.converter
+package com.wink.dbse.service
 
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Service

@@ -3,19 +3,18 @@ package com.wink.dbse.eventlistener
 import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.property.EmoteIds
 import com.wink.dbse.property.RoleIds
-import com.wink.dbse.service.converter.ChannelNameConvertingService
-import com.wink.dbse.service.misc.PrivateChannelCreationService
+import com.wink.dbse.service.ChannelNameConvertingService
+import com.wink.dbse.service.PrivateChannelCreationService
 import net.dv8tion.jda.api.entities.Role
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent
 import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionRemoveEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-final class ChannelOptionsRoleManager @Autowired constructor(
+final class ChannelOptionsRoleManager(
         private val channelIds: ChannelIds,
         private val roleIds: RoleIds,
         private val emoteIds: EmoteIds,

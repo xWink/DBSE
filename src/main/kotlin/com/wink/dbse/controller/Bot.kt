@@ -1,14 +1,13 @@
 package com.wink.dbse.controller
 
-import com.wink.dbse.service.startup.IStartupService
+import com.wink.dbse.service.StartupService
 import net.dv8tion.jda.api.JDA
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Controller
 
 @Controller
-class Bot @Autowired constructor(
+class Bot(
         api: JDA,
-        vararg startupServices: IStartupService
+        vararg startupServices: StartupService
 ) {
 
     //TODO: MOVE ALL CHECKS TO REMOVE LISTENERS HERE

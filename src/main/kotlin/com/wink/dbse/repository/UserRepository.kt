@@ -44,5 +44,7 @@ interface UserRepository : JpaRepository<UserEntity, Long> {
     @Modifying
     @Transactional
     @Query("update UserEntity u set u.purchasedRoleId = ?2, u.roleExpiry = ?3 where u.userId = ?1")
-    fun setRole(userId: Long, roleId: Long, roleExpiry: LocalDateTime)
+    fun setRole(userId: Long, roleId: Long?, roleExpiry: LocalDateTime?)
+
+    fun findUserEntitiesByRoleExpiryIsBefore(localDateTime: LocalDateTime) : List<UserEntity>
 }

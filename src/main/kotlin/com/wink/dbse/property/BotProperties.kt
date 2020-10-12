@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration
 @ConfigurationProperties(prefix = "bot")
 class BotProperties(
         var token: String? = null,
+        var serverId: String? = null,
         var ownerId: String? = null,
         var commandPrefix: String? = null
 )

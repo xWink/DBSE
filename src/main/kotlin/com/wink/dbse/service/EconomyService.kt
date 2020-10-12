@@ -2,7 +2,6 @@ package com.wink.dbse.service
 
 import com.jagrosh.jdautilities.oauth2.exceptions.InvalidStateException
 import com.wink.dbse.entity.UserEntity
-import com.wink.dbse.entity.economy.Marketplace
 import com.wink.dbse.entity.economy.RoleListing
 import com.wink.dbse.repository.UserRepository
 import net.dv8tion.jda.api.entities.Guild

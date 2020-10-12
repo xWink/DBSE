@@ -27,7 +27,7 @@ class EconomyService(private val userRepository: UserRepository) {
         val user: UserEntity = userRepository.findByIdOrNull(buyerId) ?: throw InvalidStateException("User does not exist")
 
         if (user.wallet < roleListing.cost!!) {
-            throw InvalidStateException("You cannot afford to buy this role, you only have ${user.wallet} gc")
+            throw InvalidStateException("You cannot afford to buy this role, you have ${user.wallet} gc")
         }
         if (user.purchasedRoleId != null) {
             throw InvalidStateException("You already have a purchased role, please remove it before buying a new one")

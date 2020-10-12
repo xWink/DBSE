@@ -6,6 +6,11 @@
       "description": "Discord bot token."
     },
     {
+      "name": "bot.serverId",
+      "type": "java.lang.String",
+      "description": "ID of the server the bot is running on."
+    },
+    {
       "name": "bot.ownerId",
       "type": "java.lang.String",
       "description": "User ID of the bot owner."

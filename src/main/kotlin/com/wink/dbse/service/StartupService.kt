@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.JDA
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import java.util.function.Consumer
 
@@ -18,6 +19,13 @@ import java.util.function.Consumer
  */
 interface StartupService : Consumer<JDA>
 
+@Component
+class StartupServiceList(vararg startupServices: StartupService) : ArrayList<StartupService>() {
+
+    init {
+        addAll(startupServices)
+    }
+}
 
 /**
  * Checks if any of the property strings that a listener depends on are null.

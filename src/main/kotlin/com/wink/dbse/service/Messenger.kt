@@ -57,7 +57,7 @@ class MessagingService : Messenger {
      * Sends a given message to a given channel. If the message length exceeds the maximum allowed by Discord (2000),
      * the message is broken up into multiple messages which are all sent in order.
      * @param channel the channel the message should be sent to
-     * @param embed the embeded message to send
+     * @param embed the embedded message to send
      */
     override fun sendMessage(channel: MessageChannel, embed: MessageEmbed) {
         channel.sendMessage(embed).queue()

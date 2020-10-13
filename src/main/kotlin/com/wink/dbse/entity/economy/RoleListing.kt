@@ -5,4 +5,7 @@ class RoleListing(
         var roleId: Long? = null,
         var name: String? = null,
         var durationDays: Long? = null
-)
+) {
+
+    fun getFullName() = "$name ($durationDays days)"
+}

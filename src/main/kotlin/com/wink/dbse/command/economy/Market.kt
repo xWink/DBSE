@@ -25,7 +25,8 @@ class Market(
         val eb = EmbedBuilder()
         eb.setTitle("Market")
         eb.setColor(Color(38, 111, 232))
-        marketplace.listings.forEach { eb.addField("${it.name} (${it.durationDays} days)", it.cost.toString(), false) }
+        var index = 1
+        marketplace.listings.forEach { eb.addField("${index++}. ${it.getFullName()}", it.cost.toString(), false) }
         messenger.sendMessage(event.channel, eb.build())
         logger.info("Successfully executed market command by user \"${event.author.name}\"")
     }

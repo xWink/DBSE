@@ -42,7 +42,7 @@ class Buy(
 
         val user: UserEntity = userRepository.findById(event.author.idLong).get()
         val listing: RoleListing = marketplace.listings[listingId - 1]
-        val prompt = "No refunds. Are you sure you want to buy **${listing.getFullName()}**?"
+        val prompt = "Are you sure you want to buy **${listing.getFullName()}**? No refunds."
         val action = Consumer<CommandEvent> {
             try {
                 economyService.buy(user.userId, listing, it.guild)

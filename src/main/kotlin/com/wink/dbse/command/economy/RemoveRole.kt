@@ -33,7 +33,7 @@ class RemoveRole(
         }
         val guild = event.guild
         val role = guild.getRoleById(user.purchasedRoleId) ?: return
-        val prompt = "No refunds. Are you sure you want to remove your **${role.name}** role?"
+        val prompt = "Are you sure you want to remove your **${role.name}** role? No refunds."
         val action = Consumer<CommandEvent> {
             userRepository.setRole(authorId, null, null)
             guild.removeRoleFromMember(authorId, role).queue()

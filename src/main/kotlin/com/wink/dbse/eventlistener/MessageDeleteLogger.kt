@@ -5,7 +5,9 @@ import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.repository.MessageRepository
 import com.wink.dbse.service.LoggedMessageFormatter
 import com.wink.dbse.service.Messenger
+import net.dv8tion.jda.api.entities.MessageChannel
 import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.message.MessageDeleteEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.slf4j.Logger
@@ -31,13 +33,13 @@ class MessageDeleteLogger(
         }
 
         val entity: MessageEntity = repository.findFirstByMessageId(event.messageIdLong) ?: return
-        val author: String? = event.jda.getUserById(entity.authorId)?.name
-        val channel: String? = guild.getTextChannelById(entity.channelId)?.name
+        val user: User = event.jda.getUserById(entity.authorId) ?: return
+        val channel: TextChannel = guild.getTextChannelById(entity.channelId) ?: return
         val content: String = entity.content + "\n" + entity.attachment
+        val message: String = formatter.format(entity.timeSentSecs, channel.asMention, user.asMention, content)
 
-        val message: String = formatter.format(entity.timeSentSecs, channel, author, content)
         messenger.sendMessage(deletedMessagesChannel, message)
-        logger.info("Successfully logged a deleted message by user \"$author\" in channel \"$channel\"")
+        logger.info("Successfully logged a deleted message by user \"${user.name}\" in channel \"${channel.name}\"")
     }
 
     private companion object {

@@ -34,9 +34,9 @@ class MessageBulkDeleteLogger(
         val deletedMessages: List<MessageEntity> = repository.findByMessageIdIn(event.messageIds.map { it.toLong() })
 
         for (message in deletedMessages) {
-            val authorName: String = event.jda.getUserById(message.authorId)?.name ?: "Unknown Author"
-            val channelName: String = event.guild.getTextChannelById(message.channelId)?.name ?: "Unknown Channel"
-            val formattedMessage: String = formatter.format(message.timeSentSecs, channelName, authorName, message.content)
+            val author: String = event.jda.getUserById(message.authorId)?.asMention ?: "Unknown Author"
+            val channel: String = event.guild.getTextChannelById(message.channelId)?.asMention ?: "Unknown Channel"
+            val formattedMessage: String = formatter.format(message.timeSentSecs, channel, author, message.content)
 
             // Avoid exceeding the maximum message length in discord or the output looks ugly
             if (sb.length + message.attachment.length + formattedMessage.length >= MAX_MESSAGE_LENGTH) {

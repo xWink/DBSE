@@ -43,8 +43,8 @@ If you delete a line, functionality that depends on that property will stop.
 ```
 # Mandatory bot settings
 bot.token = <bot token>
-bot.serverId = <the Discord server's ID>
-bot.ownerId = <your Discord user ID>
+bot.serverId = <your Discord server's id>
+bot.ownerId = <your Discord user id>
 bot.commandPrefix = <command prefix (eg. !)>
 
 # Channel id's

@@ -27,6 +27,10 @@ reaction to accept your terms of service
   2. `id <number>` - shows the name of the user with the corresponding id number
   3. `info <course id>` - provides detailed information about the UoGuelph course with the corresponding id
   4. `ping` - shows the latency between client and Discord servers in ms
+  5. `market` - shows the roles available for purchase on the marketplace
+  6. `buy <listing #>` - buy a role from the marketplace
+  7. `removerole` - remove your currently active purchased role
+  8. `gift <@user> <amount>` - send a gift of GryphCoins to a specified user
 
 # Forking
 In order to use this bot, you must create an `application.properties` file in src/main/resources.
@@ -39,6 +43,7 @@ If you delete a line, functionality that depends on that property will stop.
 ```
 # Mandatory bot settings
 bot.token = <bot token>
+bot.serverId = <the Discord server's ID>
 bot.ownerId = <your Discord user ID>
 bot.commandPrefix = <command prefix (eg. !)>
 

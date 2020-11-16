@@ -34,9 +34,13 @@ class MessageDeleteLogger(
 
         val entity: MessageEntity = repository.findFirstByMessageId(event.messageIdLong) ?: return
         val user: User = event.jda.getUserById(entity.authorId) ?: return
+        val userString: String =
+                if (deletedMessagesChannel.members.contains(guild.getMember(user))) user.name
+                else user.asMention
         val channel: TextChannel = guild.getTextChannelById(entity.channelId) ?: return
         val content: String = entity.content + "\n" + entity.attachment
-        val message: String = formatter.format(entity.timeSentSecs, channel.asMention, user.asMention, content)
+
+        val message: String = formatter.format(entity.timeSentSecs, channel.asMention, userString, content)
 
         messenger.sendMessage(deletedMessagesChannel, message)
         logger.info("Successfully logged a deleted message by user \"${user.name}\" in channel \"${channel.name}\"")

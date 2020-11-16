@@ -6,6 +6,7 @@ import com.wink.dbse.repository.MessageRepository
 import com.wink.dbse.service.LoggedMessageFormatter
 import com.wink.dbse.service.Messenger
 import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.User
 import net.dv8tion.jda.api.events.message.MessageBulkDeleteEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import org.slf4j.Logger
@@ -34,15 +35,19 @@ class MessageBulkDeleteLogger(
         val deletedMessages: List<MessageEntity> = repository.findByMessageIdIn(event.messageIds.map { it.toLong() })
 
         for (message in deletedMessages) {
-            val author: String = event.jda.getUserById(message.authorId)?.asMention ?: "Unknown Author"
+            val user: User = event.jda.getUserById(message.authorId) ?: continue
+            val userString: String =
+                    if (bulkDeletedMessagesChannel.members.contains(event.guild.getMember(user))) user.name
+                    else user.asMention
             val channel: String = event.guild.getTextChannelById(message.channelId)?.asMention ?: "Unknown Channel"
-            val formattedMessage: String = formatter.format(message.timeSentSecs, channel, author, message.content)
+            val formattedMessage: String = formatter.format(message.timeSentSecs, channel, userString, message.content)
 
             // Avoid exceeding the maximum message length in discord or the output looks ugly
             if (sb.length + message.attachment.length + formattedMessage.length >= MAX_MESSAGE_LENGTH) {
                 messenger.sendMessage(bulkDeletedMessagesChannel, sb.toString())
                 sb.clear()
             }
+
             // Make sure attachments appear at the bottom of their message
             else if (message.attachment.isNotEmpty()) {
                 sb.append(formattedMessage + "\n" + message.attachment)

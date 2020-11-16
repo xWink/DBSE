@@ -36,7 +36,10 @@ class MessageUpdateLogger(
         val originalContent: String = originalMessage.content + "\n" + originalMessage.attachment
         val channel: String? = event.guild.getTextChannelById(originalMessage.channelId)?.asMention
         val user: User = event.jda.getUserById(originalMessage.authorId) ?: return
-        val message: String = formatter.format(originalMessage.timeSentSecs, channel, user.asMention, originalContent)
+        val userString: String =
+                if (editedMessagesChannel.members.contains(event.guild.getMember(user))) user.name
+                else user.asMention
+        val message: String = formatter.format(originalMessage.timeSentSecs, channel, userString, originalContent)
 
         messenger.sendMessage(editedMessagesChannel, message)
         repository.updateByMessageId(editedMessage.messageId, editedMessage.timeSentSecs, editedMessage.content)

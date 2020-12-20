@@ -8,5 +8,6 @@ import org.springframework.context.annotation.Configuration
 class EmoteIds(
         var confirm: String? = null,
         var upVote: String? = null,
-        var downVote: String? = null
+        var downVote: String? = null,
+        var excitement: String? = null
 )

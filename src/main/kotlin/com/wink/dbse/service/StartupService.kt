@@ -46,13 +46,13 @@ abstract class ComponentDependencyVerifier(
     }
 
     private companion object {
-        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(ComponentDependencyVerifier::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(ComponentDependencyVerifier::class.java)
     }
 }
 
 
 @Service
-class BulkDeleteLoggerVerifier @Autowired constructor(
+class BulkDeleteLoggerVerifier(
         channelIds: ChannelIds
 ) : ComponentDependencyVerifier(
         listOf(channelIds.bulkDeletedMessages),
@@ -61,7 +61,7 @@ class BulkDeleteLoggerVerifier @Autowired constructor(
 
 
 @Service
-class ChannelOptionsVerifier @Autowired constructor(
+class ChannelOptionsVerifier(
         emoteIds: EmoteIds,
         channelIds: ChannelIds
 ) : ComponentDependencyVerifier(
@@ -71,7 +71,7 @@ class ChannelOptionsVerifier @Autowired constructor(
 
 
 @Service
-class DeleteLoggerVerifier @Autowired constructor(
+class DeleteLoggerVerifier(
         channelIds: ChannelIds
 ) : ComponentDependencyVerifier(
         listOf(channelIds.deletedMessages),
@@ -80,7 +80,7 @@ class DeleteLoggerVerifier @Autowired constructor(
 
 
 @Service
-class KarmaVerifier @Autowired constructor(
+class KarmaVerifier(
         emoteIds: EmoteIds
 ) : ComponentDependencyVerifier(
         listOf(emoteIds.upVote, emoteIds.downVote),
@@ -89,7 +89,7 @@ class KarmaVerifier @Autowired constructor(
 
 
 @Service
-class UpdateLoggerVerifier @Autowired constructor(
+class UpdateLoggerVerifier(
         channelIds: ChannelIds
 ) : ComponentDependencyVerifier(
         listOf(channelIds.editedMessages),
@@ -98,7 +98,7 @@ class UpdateLoggerVerifier @Autowired constructor(
 
 
 @Service
-class WelcomeMessageVerifier @Autowired constructor(
+class WelcomeMessageVerifier(
         channelIds: ChannelIds,
         emoteIds: EmoteIds,
         roleIds: RoleIds
@@ -109,7 +109,7 @@ class WelcomeMessageVerifier @Autowired constructor(
 
 
 @Service
-class MemberSavingService @Autowired constructor(private val repository: UserRepository) : StartupService {
+class MemberSavingService(private val repository: UserRepository) : StartupService {
 
     /**
      * Saves all cached members as users in the database.

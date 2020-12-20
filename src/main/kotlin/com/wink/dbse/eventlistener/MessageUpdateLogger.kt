@@ -47,6 +47,6 @@ class MessageUpdateLogger(
     }
 
     private companion object {
-        @JvmStatic private val logger: Logger = LoggerFactory.getLogger(MessageUpdateLogger::class.java)
+        private val logger: Logger = LoggerFactory.getLogger(MessageUpdateLogger::class.java)
     }
 }

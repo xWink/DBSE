@@ -10,5 +10,6 @@ class ChannelIds(
         var deletedMessages: String? = null,
         var bulkDeletedMessages: String? = null,
         var editedMessages: String? = null,
-        var channelOptions: String? = null
+        var channelOptions: String? = null,
+        var spamChannel: String? = null
 )

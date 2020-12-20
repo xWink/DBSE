@@ -43,6 +43,8 @@ class Gift(
 
             economyService.gift(event.author.idLong, receiver.idLong, amount)
             messenger.sendMessage(event.channel, createGiftEmbed(event.author, receiver, amount))
+            logger.info("Successfully executed gift command by user \"${event.author.name}\" to user \"${receiver.name}\" "
+                    + "for the amount of $amount gc")
         } catch (e: Exception) {
             sendHelp(event.channel)
         }

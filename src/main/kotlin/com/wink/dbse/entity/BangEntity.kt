@@ -8,8 +8,8 @@ import javax.persistence.*
 class BangEntity(
         @Id
         @GeneratedValue
-        val id: Long = 0,
-        val userId: Long = 0,
+        val id: Long? = null,
+        val userId: Long? = null,
         val timeOccurred: LocalDateTime? = null,
-        val result: Int = -1
+        val result: Int? = null
 )

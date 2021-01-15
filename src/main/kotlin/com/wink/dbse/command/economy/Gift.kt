@@ -25,6 +25,7 @@ class Gift(
         name = "gift"
         help = "send a gift of gc to another user"
         arguments = "<@user to send a gift> <amount of gc>"
+        aliases += "give"
     }
 
     override fun execute(event: CommandEvent) {

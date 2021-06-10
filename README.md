@@ -53,11 +53,13 @@ bot.channel.id.bulkDeletedMessages = <id of channel where purged messages are lo
 bot.channel.id.deletedMessages = <id of channel where deleted messages are logged>
 bot.channel.id.editedMessages = <id of channel where edited messages are logged>
 bot.channel.id.channelOptions = <id of channel where opt-in channel options are displayed>
+bot.channel.id.spam-channel = <id of channel where spammed bot messages are displayed>
 
 # Emote id's
 bot.emote.id.confirm = <id of emote used for confirmation (like a checkmark)>
 bot.emote.id.upVote = <id of emote used to signify an upvote>
 bot.emote.id.downVote = <id of emote used to signify a downvote>
+bot.emote.id.excitement = <id of emote used to signify excitement>
 
 # Role id's
 bot.role.id.globalAccess = <comma-separated list of id's of roles that can see all generated channels>
@@ -77,6 +79,7 @@ bot.market.listings[1].durationDays = 7
 
 # Database configuration
 spring.datasource.url = jdbc:mariadb://<database server URL:port>/<database name>
+spring.datasource.sqlScriptEncoding = UTF-8
 spring.datasource.username = <database username>
 spring.datasource.password = <database password>
 spring.datasource.driver-class-name = org.mariadb.jdbc.Driver

@@ -7,6 +7,7 @@ package com.wink.dbse.command.game
 import com.jagrosh.jdautilities.command.Command
 import com.jagrosh.jdautilities.command.CommandEvent
 import com.wink.dbse.entity.BangEntity
+import com.wink.dbse.extension.safeName
 import com.wink.dbse.property.ChannelIds
 import com.wink.dbse.property.EmoteIds
 import com.wink.dbse.repository.BangRepository
@@ -19,10 +20,8 @@ import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.util.*
-// TODO: Make sure to escape _ - ~ chars in people's names
 
 private var chambers = 6
-
 @Component
 class Bang(
         private val bangCache: BangCache
@@ -77,12 +76,11 @@ enum class BangResult(val value: Int) {
 
 @Component
 class BangCache(
-        channelIds: ChannelIds,
-        emoteIds: EmoteIds,
+        private val channelIds: ChannelIds,
+        private val emoteIds: EmoteIds,
         private val messenger: Messenger,
         private val bangRepository: BangRepository,
-        private val jda: JDA
-) {
+        private val jda: JDA) {
 
     private val excitementEmote: Emote? = jda.getEmoteById(emoteIds.excitement ?: "")
     private val bangChannel: TextChannel? = jda.getTextChannelById(channelIds.spamChannel ?: "")
@@ -93,6 +91,10 @@ class BangCache(
     final var panic = false
         private set
 
+    /**
+     * Adds the bang entity to the queue to be completed
+     * @param bangEntity the bangEntity to be added to the queue
+     */
     fun add(bangEntity: BangEntity) {
         queue.add(bangEntity)
         last20.add(bangEntity)
@@ -104,7 +106,7 @@ class BangCache(
         if (!panic) {
             printBangResult(bangEntity)
         } else {
-            queue.add(bangEntity)
+//            queue.add(bangEntity)
         }
     }
 
@@ -120,6 +122,9 @@ class BangCache(
         messenger.sendMessage(bangChannel ?: return, output)
     }
 
+    /**
+     * clears the queue after saving all the bangs to the corresponding repository
+     */
     private fun flush() {
         for (bang in queue) {
             bangRepository.save(bang)
@@ -136,10 +141,9 @@ class BangCache(
         println("Average time = $avgTime ms ago")
         println("Threshold = ${Date().time - threshold} ms ago")
         println("Size = ${last20.size}")
+        println("Num Queue = ${queue.size}")
 
-        if (avgTime > Date().time - threshold && last20.size >= 20) {
-            panic = true
-        }
+        panic = avgTime > Date().time - threshold && last20.size >= 20
 
         when {
             timer != null -> {
@@ -165,7 +169,7 @@ class BangCache(
         for (userUpdates in updates.values) {
             val user = jda.getUserById(userUpdates[0].userId ?: continue) ?: continue
             output += """
-                **${user.name}:**
+                **${user.safeName()}:**
                 Attempts: ${userUpdates.size}
                 Deaths: ${userUpdates.count { it.result == BangResult.DIE.value }}
                 Jams: ${userUpdates.count { it.result == BangResult.JAM.value }}
@@ -176,6 +180,9 @@ class BangCache(
     }
 
     private val task = object : TimerTask() {
+        /**
+         * Kills the current timer task and flushes the queue
+         */
         override fun run() {
             timer?.cancel()
             timer = null
@@ -187,6 +194,28 @@ class BangCache(
 
     private fun initTimer() {
         timer = Timer()
-        timer!!.schedule(task, 1000 * 10)
+        timer!!.schedule(initTask(), 1000 * 10)
     }
+
+    /**
+     * Initializes a Task for a given time
+     * @return a TimerTask containing a way to manage multiple requests from users
+     */
+    private fun initTask() :TimerTask {
+        return object : TimerTask() {
+            /**
+             * Kills the current timer task and flushes the queue
+             */
+            override fun run() {
+                timer?.cancel()
+                timer = null
+                printResults()
+                flush()
+                panic = false
+            }
+        }
+    }
+
+
+
 }

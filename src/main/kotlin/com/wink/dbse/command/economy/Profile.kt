@@ -64,7 +64,7 @@ class Profile(
     }
 
     private fun getSurvivalRate (deaths: Float, bangs: Int): Double {
-        return if(bangs > 0) ((deaths.toDouble().div(bangs) * 100 * 100).roundToInt() / 100.00) else 100.00
+        return if(bangs > 0) (100 - (deaths.toDouble().div(bangs) * 100 * 100).roundToInt() / 100.00) else 100.00
     }
 
     private fun setHeading (event: CommandEvent) {

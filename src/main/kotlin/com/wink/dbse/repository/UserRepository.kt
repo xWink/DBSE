@@ -48,7 +48,7 @@ interface UserRepository : JpaRepository<UserEntity, Long> {
 
     @Modifying
     @Transactional
-    @Query("update UserEntity u set u.bangStreak = u.bangStreak + 1 where u.userId = ?1")
+    @Query("update UserEntity u set u.bangStreak = u.bangStreak + 1 where u.userId = ?1 ")
     fun incrementBangStreak(userId: Long)
 
     @Modifying

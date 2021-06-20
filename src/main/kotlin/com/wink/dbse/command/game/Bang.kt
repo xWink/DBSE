@@ -20,6 +20,7 @@ import com.wink.dbse.service.Messenger
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.entities.Emote
 import net.dv8tion.jda.api.entities.TextChannel
+import net.dv8tion.jda.api.entities.User
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.scheduling.annotation.Scheduled
@@ -30,9 +31,10 @@ import java.time.ZoneOffset
 import java.util.*
 
 private var chambers = 6
+
 @Component
 class Bang(
-        private val bangCache: BangCache
+    private val bangCache: BangCache
 ) : Command() {
 
     private val random = Random()
@@ -101,8 +103,8 @@ class BangCache(
     private val last20 = LinkedList<BangEntity>()
     final var panic = false
         private set
-    private var updateTableActive = false
-
+    final var reset = false
+        private set
     fun add(bangEntity: BangEntity) {
         queue.add(bangEntity)
         last20.add(bangEntity)
@@ -118,54 +120,64 @@ class BangCache(
 
     private fun printBangResult(bangEntity: BangEntity) {
         val name = jda.getUserById(bangEntity.userId!!)?.safeName()?: "Unknown user"
+        val output = printShotResult(name, bangEntity.result!!) + printDailyResult(name, bangEntity.userId) +
+                printJamResult(name, bangEntity)
+        messenger.sendMessage(bangChannel ?: return, output)
+    }
+
+    private fun printJamResult(name: String, bangEntity: BangEntity): String {
+        var output = ""
+        if(bangEntity.result == BangResult.JAM.value) {
+            output += "\n$name received a bonus 50 GryphCoins for Jamming!"
+            userRepository.addMoney(bangEntity.userId!!, 50L)
+        }
+        return output
+    }
+
+    private fun printShotResult (name: String, result: Int ): String {
         val excite = excitementEmote?.asMention ?: ":O"
-        var output: String = when(BangResult.of(bangEntity.result!!)) {
+        val output: String = when(BangResult.of(result)) {
             BangResult.LIVE -> "Click. $name survived! $excite"
             BangResult.DIE -> "Bang! $name died :skull:"
             BangResult.JAM -> "Click. The gun jammed... $name survived $excite $excite $excite"
         }
-        output += "\nChambers left in cylinder: ||  $chambers  ||"
-        if (todayBangerRepository.findFirstByUserId(bangEntity.userId) == null) {
-            output += "\n$name received their daily reward of 5 GryphCoins!"
-            addDaily(bangEntity.userId)
-        }
-
-        messenger.sendMessage(bangChannel ?: return, output)
+        return "$output\nChambers left in cylinder: ||  $chambers  ||"
     }
 
+    private fun printDailyResult (name: String, userId: Long): String {
+        return if (todayBangerRepository.findFirstByUserId(userId) == null)
+             "\n$name received their daily reward of 5 GryphCoins!" +
+                    if(addDaily(userId) > 5)  "\nA bonus 50 GryphCoins were awarded for the current streak" else ""
+                        else ""
+    }
 
-    private fun daily(): LinkedList<Long> {
-        val list = LinkedList<Long>()
-        //reduce to a for each with other content maybe?
+    private fun daily(): LinkedList<Pair<Long, Long>> {
+        val list = LinkedList<Pair<Long, Long>>()
         queue.distinctBy { it.userId }.filter { todayBangerRepository.findFirstByUserId(it.userId!!) == null }.forEach {
-            addDaily(it.userId!!)
-            list.add(it.userId)
+            list.add(Pair(it.userId!!, addDaily(it.userId)))
         }
         return list
     }
 
     private fun flush() {
-        for (bang in queue) {
-            bangRepository.save(bang)
-        }
+        queue.forEach{ bangRepository.save(it)}
         queue.clear()
     }
 
-    private fun addDaily(userId: Long) {
+    private fun addDaily(userId: Long) : Long {
         todayBangerRepository.save(TodayBangerEntity(userId))
         userRepository.incrementBangStreak(userId)
-        userRepository.addMoney(userId,5)
+        val money =  5L + if (userRepository.findById(userId).get().bangStreak % 10 == 0)  50L else 0L
+        userRepository.addMoney(userId, money)
+        return money
     }
-
 
     private fun checkPanic() {
         val avgTime: Long = last20
                 .mapNotNull { it.timeOccurred?.toEpochSecond(ZoneOffset.UTC)?.times(1000) }
-                .reduce { a, b -> a + b }
-                .div(last20.size)
+                .reduce { a, b -> a + b }.div(last20.size)
 
-        //if the average time for the last 20 is greater than the threshold or the timer is still active
-        panic = (avgTime > Date().time - threshold && last20.size >= 20)  || timer != null
+        panic = (avgTime > Date().time - threshold && last20.size >= 20)  || timer != null || reset
 
         when {
             timer != null -> {
@@ -178,15 +190,11 @@ class BangCache(
     }
 
     fun printResults() {
-        if (queue.size == 0) {
+        if (queue.isEmpty()) {
             return
         }
-
         val updates = HashMap<Long, LinkedList<BangEntity>>()
-        for (bang in queue) {
-            updates.getOrPut(bang.userId!!) { LinkedList() }.add(bang)
-        }
-
+        queue.forEach {   updates.getOrPut(it.userId!!) { LinkedList() }.add(it) }
 
         messenger.sendMessage(bangChannel ?: return, compileAttemptsOutput(updates))
     }
@@ -194,62 +202,77 @@ class BangCache(
     private fun compileAttemptsOutput(updates: HashMap<Long, LinkedList<BangEntity>>): String {
         var output = "**Combined Data:**\n"
         for (userUpdates in updates.values) {
-            val user = jda.getUserById(userUpdates[0].userId ?: continue) ?: continue
-            output += """
+            output += compiledIndividual(userUpdates,jda.getUserById(userUpdates[0].userId ?: continue)
+                ?: continue)
+        }
+        return output + dailyUpdates()
+    }
+
+    private fun compiledIndividual(userUpdates: LinkedList<BangEntity>, user: User): String {
+        val jams = userUpdates.count { it.result == BangResult.JAM.value }
+        userRepository.addMoney(user.idLong,jams * 50L)
+        return """
                 **${user.safeName()}:**
                 Attempts: ${userUpdates.size}
                 Deaths: ${userUpdates.count { it.result == BangResult.DIE.value }}
-                Jams: ${userUpdates.count { it.result == BangResult.JAM.value }}
+                Jams: $jams
                 
             """.trimIndent()
-        }
-        output += "***Daily Updates***"
-        for (userStreak in daily()) {
-            val user = jda.getUserById(userStreak) ?: continue
+    }
+
+    private fun dailyUpdates () :String {
+        val userUpdateList = daily()
+        var output = if(userUpdateList.isNotEmpty()) { "**Daily Updates**\n" } else ""
+        for (userStreak in userUpdateList ) {
+            val user = jda.getUserById(userStreak.first) ?: continue
             output += """
-                **${user.safeName()}** received their daily reward of 5 GryphCoins!
+                **${user.safeName()}** received their daily reward of ${userStreak.second} GryphCoins!
                 
             """.trimIndent()
         }
-        return output;
+        return output
     }
 
 
     private fun initTimer() {
-        //todo: dont allow this to start when reseting tables
         timer = Timer()
-        timer!!.schedule(initTask(), 1000 * 10)
+        timer!!.schedule(initTask(), 1000 * 10, 1000)
     }
 
     private fun initTask(): TimerTask {
         return object : TimerTask() {
             //Kills the current timer task and flushes the queue
             override fun run() {
-                timer?.cancel()
-                timer = null
-                printResults()
-                flush()
-                panic = false
+                if (!reset) finishTimer()
             }
-
         }
     }
-    @Scheduled(cron = "0 0 24 * * ?", zone = "GMT-4:00")
+
+    private fun finishTimer () {
+        timer?.cancel()
+        timer = null
+        printResults()
+        flush()
+        panic = false
+    }
+
+    @Scheduled(cron = "59 59 23 * * ?", zone = "GMT-4:00")
     private fun resetTables () {
         logger.info("Updating the Bang streak for the day")
-        if(timer != null){
-            timer?.cancel()     //TODO: prevent the timers task from printing daily streaks
-            updateTableActive = true
-        }
-        val yesterday = yesterdayBangerRepository.findAll()
-        val today = todayBangerRepository.findAll().mapNotNull { YesterdayBangerEntity(it.userId) }
 
-        clearDailyTables()
-        updateUserStreaks(yesterday,today)
-        if (updateTableActive) {
-            updateTableActive = false
+        if(panic  && timer != null) {
+            reset = true
+            finishTimer()
+            reset = false
             initTimer()
         }
+
+        val yesterday = yesterdayBangerRepository.findAll()
+        val today = todayBangerRepository.findAll().mapNotNull { YesterdayBangerEntity(it.userId) }
+        clearDailyTables()
+        updateUserStreaks(yesterday, today)
+        reset = false
+        logger.info("Completed Migrating the tables")
     }
 
     private fun clearDailyTables() {
@@ -260,10 +283,8 @@ class BangCache(
     private fun updateUserStreaks(yesterday: MutableList<YesterdayBangerEntity>, today: List<YesterdayBangerEntity>) {
         yesterday.removeAll(today)
         yesterday.forEach {userRepository.clearBangStreak(it.userId)}
-        today.forEach { userRepository.incrementBangStreak(it.userId) }
         yesterdayBangerRepository.saveAll(today)
     }
-
 
     private companion object {
         @JvmStatic private val logger: Logger = LoggerFactory.getLogger(BangCache::class.java)

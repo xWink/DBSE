@@ -1,5 +1,6 @@
 package com.wink.dbse.service
 
+import com.wink.dbse.command.game.Bang
 import com.wink.dbse.entity.UserEntity
 import com.wink.dbse.eventlistener.*
 import com.wink.dbse.property.ChannelIds
@@ -9,7 +10,6 @@ import com.wink.dbse.repository.UserRepository
 import net.dv8tion.jda.api.JDA
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import org.springframework.stereotype.Service
 import java.util.function.Consumer
@@ -49,6 +49,14 @@ abstract class ComponentDependencyVerifier(
         private val logger: Logger = LoggerFactory.getLogger(ComponentDependencyVerifier::class.java)
     }
 }
+
+@Service
+class BotSpamVerifier(
+    channelIds: ChannelIds
+) : ComponentDependencyVerifier(
+        listOf(channelIds.spamChannel),
+        listOf(Bang::class.java)
+)
 
 
 @Service

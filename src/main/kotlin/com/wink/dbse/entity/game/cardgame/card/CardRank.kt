@@ -1,7 +1,5 @@
 package com.wink.dbse.entity.game.cardgame.card
 
-import java.util.HashMap
-
 enum class CardRank(val symbol: String, val value: Int) {
 
     TWO("2", 2),

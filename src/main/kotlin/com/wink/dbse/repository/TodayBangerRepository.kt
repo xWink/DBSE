@@ -8,3 +8,7 @@ import org.springframework.stereotype.Repository
 interface TodayBangerRepository: JpaRepository<TodayBangerEntity, Long>  {
     fun findFirstByUserId(userId: Long): TodayBangerEntity?
 }
+
+fun TodayBangerRepository.userNotBangedToday(userId: Long): Boolean {
+    return findFirstByUserId(userId) == null
+}

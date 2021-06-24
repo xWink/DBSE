@@ -48,7 +48,6 @@ class ShowChannelOptions(
             event.jda.removeEventListener(this)
             return
         }
-        //TODO: displays all the data but needs to add the channels to proper groups. FUTURE FUNCTIONALITY
         resource.inputStream.readBytes()
                 .toString(Charset.defaultCharset())
                 .lines()

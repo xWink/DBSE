@@ -5,5 +5,4 @@ import javax.persistence.Id
 import javax.persistence.Table
 @Entity
 @Table(name = "today")
-class TodayBangerEntity(
-    @Id val userId: Long = 0)
+class TodayBangerEntity(@Id val userId: Long = 0)

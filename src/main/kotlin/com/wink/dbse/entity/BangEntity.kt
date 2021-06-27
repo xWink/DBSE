@@ -14,5 +14,6 @@ class BangEntity(
         val id: Long? = null,
         val userId: Long? = null,
         val timeOccurred: LocalDateTime? = null,
-        val result: Int? = null
+        val result: Int? = null,
+        val chambers: Int? = null
 )

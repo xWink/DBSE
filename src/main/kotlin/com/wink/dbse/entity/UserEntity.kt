@@ -14,9 +14,5 @@ class UserEntity(
         val wallet: Long = 0,
         val purchasedRoleId: Long? = null,
         val roleExpiry: LocalDateTime? = null,
-        val bangStreak: Int = 0//,
-//        val bangAttempts: Int = 0,
-//        val bangDeaths: Int = 0,
-//        val bangJams: Int = 0
+        val bangStreak: Int = 0
 )
-//TODO: add an annotation convert from one to many then compile to one value

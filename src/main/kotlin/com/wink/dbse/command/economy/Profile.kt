@@ -23,7 +23,7 @@ class Profile(
 
     init {
         name = "profile"
-        help = "shows your profile information"
+        help = "Shows your profile information"
     }
 
     private val eb = EmbedBuilder()
@@ -36,22 +36,15 @@ class Profile(
         messenger.sendMessage(event.channel, eb.build())
     }
 
-    private fun setUserInfo(user: UserEntity) {
-        eb.addField("Streak", "${user.bangStreak}" + if(user.bangStreak > 0)" :fire:" else "", true)
-        eb.addField("Karma","${user.upVotes - user.downVotes}",false)
-        eb.addField("Wallet","${user.wallet} gc",true)
+    private fun setHeading (event: CommandEvent) {
+        eb.setTitle( "${event.author.safeName()}'s Profile")
+        eb.setThumbnail(event.author.avatarUrl)
+        eb.setColor(event.member?.color ?: Color.LIGHT_GRAY)
     }
 
     private fun generateBangInfo(bangs: List<BangEntity>) {
-        var jams = 0
-        var deaths = 0
-        //TODO: remove for the new database option
-        for (bang in  bangs) {
-            when (bang.result) {
-                BangResult.DIE.value-> deaths++
-                BangResult.JAM.value-> jams++
-            }
-        }
+        val jams = bangs.count { it.result == BangResult.JAM.value }
+        val deaths = bangs.count{ it.result == BangResult.DIE.value }
         setBangInfo(bangs.size, deaths, jams)
     }
 
@@ -66,10 +59,10 @@ class Profile(
         return if(bangs > 0) (100 - (deaths.toFloat().div(bangs) * 100 * 100).roundToInt() / 100.00) else 100.00
     }
 
-    private fun setHeading (event: CommandEvent) {
-        eb.setTitle( "${event.author.safeName()}'s Profile")
-        eb.setThumbnail(event.author.avatarUrl)
-        eb.setColor(event.member?.color ?: Color.LIGHT_GRAY)
+    private fun setUserInfo(user: UserEntity) {
+        eb.addField("Streak", "${user.bangStreak}" + if(user.bangStreak > 0)" :fire:" else "", true)
+        eb.addField("Karma","${user.upVotes - user.downVotes}",false)
+        eb.addField("Wallet","${user.wallet} gc",true)
     }
 
 }

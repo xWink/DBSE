@@ -48,6 +48,7 @@ class ShowChannelOptions(
             event.jda.removeEventListener(this)
             return
         }
+
         resource.inputStream.readBytes()
                 .toString(Charset.defaultCharset())
                 .lines()

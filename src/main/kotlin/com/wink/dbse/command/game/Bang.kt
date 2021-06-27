@@ -25,9 +25,10 @@ class Bang(
     }
 
     override fun execute(event: CommandEvent) {
+        val numChambers = chambers
         val result: BangResult = pullTrigger()
-        val bangEntity = BangEntity(null, event.author.idLong, LocalDateTime.now(ZoneOffset.UTC), result.value)
-        bangCache.add(bangEntity, chambers)
+        val bangEntity = BangEntity(null, event.author.idLong, LocalDateTime.now(ZoneOffset.UTC), result.value, numChambers)
+        bangCache.add(bangEntity)
     }
 
     private fun pullTrigger(): BangResult {

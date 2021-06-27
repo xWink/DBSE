@@ -8,7 +8,6 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.events.message.MessageUpdateEvent
 import org.springframework.core.convert.converter.Converter
 import org.springframework.stereotype.Component
-import java.lang.IllegalArgumentException
 import java.time.OffsetDateTime
 
 @Component

@@ -1,7 +1,5 @@
 package com.wink.dbse.entity.game.cardgame.card
 
-import java.util.HashMap
-
 enum class CardSuit(val symbol: String, val initial: String) {
 
     SPADES("♠", "s"),

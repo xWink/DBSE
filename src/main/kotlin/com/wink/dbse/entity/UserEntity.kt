@@ -13,5 +13,6 @@ class UserEntity(
         val downVotes: Long = 0,
         val wallet: Long = 0,
         val purchasedRoleId: Long? = null,
-        val roleExpiry: LocalDateTime? = null
+        val roleExpiry: LocalDateTime? = null,
+        val bangStreak: Int = 0
 )

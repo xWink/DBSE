@@ -1,7 +1,5 @@
 package com.wink.dbse.entity.game.cardgame.card
 
-import kotlin.collections.ArrayList
-
 class Deck private constructor(private val cards: MutableList<Card>) {
 
     fun shuffle() = cards.shuffle()
